@@ -7,7 +7,7 @@ local flags = {}
 -- Callback
 
 QBCore.Functions.CreateCallback('qb-jewellery:server:getCops', function(source, cb)
-	local amount = 0
+    local amount = 0
     for _, v in pairs(QBCore.Functions.GetQBPlayers()) do
         if v.PlayerData.job.name == "police" and v.PlayerData.job.onduty then
             amount = amount + 1
@@ -18,7 +18,7 @@ QBCore.Functions.CreateCallback('qb-jewellery:server:getCops', function(source, 
 end)
 
 QBCore.Functions.CreateCallback('qb-jewellery:server:getVitrineState', function(_, cb)
-	cb(Config.Locations)
+    cb(Config.Locations)
 end)
 
 -- Functions
@@ -79,9 +79,11 @@ RegisterNetEvent('qb-jewellery:server:vitrineReward', function(vitrineIndex)
 
                 if otherchance == odd then
                     local item = math.random(1, #Config.VitrineRewards)
-                    local amount = math.random(Config.VitrineRewards[item]["amount"]["min"], Config.VitrineRewards[item]["amount"]["max"])
+                    local amount = math.random(Config.VitrineRewards[item]["amount"]["min"],
+                     Config.VitrineRewards[item]["amount"]["max"])
                     if Player.Functions.AddItem(Config.VitrineRewards[item]["item"], amount) then
-                        TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items[Config.VitrineRewards[item]["item"]], 'add')
+                        TriggerClientEvent('inventory:client:ItemBox', src,
+             QBCore.Shared.Items[Config.VitrineRewards[item]["item"]], 'add')
                     else
                         TriggerClientEvent('ox_lib:notify', src, {
                             id = 'to_much',

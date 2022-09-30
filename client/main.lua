@@ -5,11 +5,11 @@ local smashing = false
 -- Functions
 
 local function loadParticle()
-	if not HasNamedPtfxAssetLoaded("scr_jewelheist") then
-		RequestNamedPtfxAsset("scr_jewelheist")
+    if not HasNamedPtfxAssetLoaded("scr_jewelheist") then
+        RequestNamedPtfxAsset("scr_jewelheist")
     end
     while not HasNamedPtfxAssetLoaded("scr_jewelheist") do
-		Wait(0)
+        Wait(0)
     end
     SetPtfxAssetNextCall("scr_jewelheist")
 end
@@ -82,11 +82,12 @@ local function smashVitrine(k)
             CreateThread(function()
                 while smashing do
                     loadAnimDict(animDict)
-                    TaskPlayAnim(ped, animDict, animName, 3.0, 3.0, -1, 2, 0, 0, 0, 0 )
+                    TaskPlayAnim(ped, animDict, animName, 3.0, 3.0, -1, 2, 0, 0, 0, 0)
                     Wait(500)
                     TriggerServerEvent("InteractSound_SV:PlayOnSource", "breaking_vitrine_glass", 0.25)
                     loadParticle()
-                    StartParticleFxLoopedAtCoord("scr_jewel_cab_smash", plyCoords.x, plyCoords.y, plyCoords.z, 0.0, 0.0, 0.0, 1.0, false, false, false, false)
+                    StartParticleFxLoopedAtCoord("scr_jewel_cab_smash", plyCoords.x, plyCoords.y, plyCoords.z, 0.0, 0.0,
+                        0.0, 1.0, false, false, false, false)
                     Wait(2500)
                 end
             end)
@@ -118,7 +119,7 @@ local function smashVitrine(k)
         else
             lib.notify({
                 id = 'min_police',
-                title = Lang:t('error.minimum_police', {value = Config.RequiredCops}),
+                title = Lang:t('error.minimum_police', { value = Config.RequiredCops }),
                 duration = 2500,
                 style = {
                     backgroundColor = '#141517',
@@ -134,9 +135,9 @@ end
 -- Events
 
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
-	QBCore.Functions.TriggerCallback('qb-jewellery:server:getVitrineState', function(result)
-		Config.Locations = result
-	end)
+    QBCore.Functions.TriggerCallback('qb-jewellery:server:getVitrineState', function(result)
+        Config.Locations = result
+    end)
 end)
 
 RegisterNetEvent('qb-jewellery:client:setVitrineState', function(stateType, state, k)
@@ -146,10 +147,11 @@ end)
 -- Threads
 
 CreateThread(function()
-    local Dealer = AddBlipForCoord(Config.JewelleryLocation["coords"]["x"], Config.JewelleryLocation["coords"]["y"], Config.JewelleryLocation["coords"]["z"])
-    SetBlipSprite (Dealer, 617)
+    local Dealer = AddBlipForCoord(Config.JewelleryLocation["coords"]["x"], Config.JewelleryLocation["coords"]["y"],
+        Config.JewelleryLocation["coords"]["z"])
+    SetBlipSprite(Dealer, 617)
     SetBlipDisplay(Dealer, 4)
-    SetBlipScale  (Dealer, 0.7)
+    SetBlipScale(Dealer, 0.7)
     SetBlipAsShortRange(Dealer, true)
     SetBlipColour(Dealer, 3)
     BeginTextCommandSetBlipName("STRING")
@@ -166,34 +168,34 @@ local function Listen4Control(case)
                 listen = false
                 if not Config.Locations[case]["isBusy"] and not Config.Locations[case]["isOpened"] then
                     exports['qb-core']:KeyPressed()
-                        if validWeapon() then
-                            smashVitrine(case)
-                            lib.hideTextUI()
-                        else
-                            lib.notify({
-                                id = 'weapon_error',
-                                title = Lang:t('error.wrong_weapon'),
-                                duration = 2500,
-                                style = {
-                                    backgroundColor = '#141517',
-                                    color = '#ffffff'
-                                },
-                                icon = 'gun',
-                                iconColor = '#C0392B'
-                            })
-                        end
+                    if validWeapon() then
+                        smashVitrine(case)
+                        lib.hideTextUI()
                     else
-                        lib.showTextUI(Lang:t('general.drawtextui_broken'), {
-                            position = "top-center",
-                            icon = "store-slash",
+                        lib.notify({
+                            id = 'weapon_error',
+                            title = Lang:t('error.wrong_weapon'),
+                            duration = 2500,
                             style = {
-                                borderRadius = 5,
                                 backgroundColor = '#141517',
-                                color = 'white'
-                            }
+                                color = '#ffffff'
+                            },
+                            icon = 'gun',
+                            iconColor = '#C0392B'
                         })
                     end
+                else
+                    lib.showTextUI(Lang:t('general.drawtextui_broken'), {
+                        position = "top-center",
+                        icon = "store-slash",
+                        style = {
+                            borderRadius = 5,
+                            backgroundColor = '#141517',
+                            color = 'white'
+                        }
+                    })
                 end
+            end
             Wait(1)
         end
     end)
