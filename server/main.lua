@@ -83,14 +83,34 @@ RegisterNetEvent('qb-jewellery:server:vitrineReward', function(vitrineIndex)
                     if Player.Functions.AddItem(Config.VitrineRewards[item]["item"], amount) then
                         TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items[Config.VitrineRewards[item]["item"]], 'add')
                     else
-                        TriggerClientEvent('QBCore:Notify', src, Lang:t('error.to_much'), 'error')
+                        TriggerClientEvent('ox_lib:notify', src, {
+                            id = 'to_much',
+                            description = Lang:t('error.to_much'),
+                            duration = 2500,
+                            style = {
+                                backgroundColor = '#141517',
+                                color = '#ffffff'
+                            },
+                            icon = 'person-circle-xmark',
+                            iconColor = '#C53030'
+                        })
                     end
                 else
                     local amount = math.random(2, 4)
                     if Player.Functions.AddItem("10kgoldchain", amount) then
                         TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["10kgoldchain"], 'add')
                     else
-                        TriggerClientEvent('QBCore:Notify', src, Lang:t('error.to_much'), 'error')
+                        TriggerClientEvent('ox_lib:notify', src, {
+                            id = 'to_much',
+                            description = Lang:t('error.to_much'),
+                            duration = 2500,
+                            style = {
+                                backgroundColor = '#141517',
+                                color = '#ffffff'
+                            },
+                            icon = 'person-circle-xmark',
+                            iconColor = '#C53030'
+                        })
                     end
                 end
             else
