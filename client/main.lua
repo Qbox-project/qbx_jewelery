@@ -66,17 +66,7 @@ local function smashVitrine(k)
                 TriggerServerEvent("evidence:server:CreateFingerDrop", plyCoords)
             elseif math.random(1, 100) <= 5 and IsWearingHandshoes() then
                 TriggerServerEvent("evidence:server:CreateFingerDrop", plyCoords)
-                lib.notify({
-                    id = 'progressbar',
-                    title = Lang:t('error.fingerprints'),
-                    duration = 2500,
-                    style = {
-                        backgroundColor = '#141517',
-                        color = '#ffffff'
-                    },
-                    icon = 'xmark',
-                    iconColor = '#C0392B'
-                })
+                lib.notify({ description = Lang:t("error.fingerprints"), type = 'error' })
             end
             smashing = true
             CreateThread(function()
@@ -117,17 +107,7 @@ local function smashVitrine(k)
             end
             TriggerServerEvent('qb-jewellery:server:setVitrineState', "isBusy", true, k)
         else
-            lib.notify({
-                id = 'min_police',
-                title = Lang:t('error.minimum_police', { value = Config.RequiredCops }),
-                duration = 2500,
-                style = {
-                    backgroundColor = '#141517',
-                    color = '#ffffff'
-                },
-                icon = 'xmark',
-                iconColor = '#C0392B'
-            })
+            lib.notify({ description = Lang:t('error.minimum_police', { value = Config.RequiredCops }), type = 'error' })
         end
     end)
 end
@@ -172,17 +152,7 @@ local function Listen4Control(case)
                         smashVitrine(case)
                         lib.hideTextUI()
                     else
-                        lib.notify({
-                            id = 'weapon_error',
-                            title = Lang:t('error.wrong_weapon'),
-                            duration = 2500,
-                            style = {
-                                backgroundColor = '#141517',
-                                color = '#ffffff'
-                            },
-                            icon = 'gun',
-                            iconColor = '#C0392B'
-                        })
+                        lib.notify({ description = Lang:t('error.wrong_weapon'), type = 'error' })
                     end
                 else
                     lib.showTextUI(Lang:t('general.drawtextui_broken'), {
@@ -220,17 +190,7 @@ CreateThread(function()
                             if validWeapon() then
                                 smashVitrine(k)
                             else
-                                lib.notify({
-                                    id = 'weapon_error',
-                                    title = Lang:t('error.wrong_weapon'),
-                                    duration = 2500,
-                                    style = {
-                                        backgroundColor = '#141517',
-                                        color = '#ffffff'
-                                    },
-                                    icon = 'gun',
-                                    iconColor = '#C0392B'
-                                })
+                                lib.notify({ description = Lang:t('error.wrong_weapon'), type = 'error' })
                             end
                         end,
                         canInteract = function()
