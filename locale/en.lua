@@ -1,18 +1,15 @@
 local Translations = {
-    error = {
-        fingerprints = 'You\'ve left a fingerprint on the glass',
-        minimum_police = 'Minimum of %{value} police needed',
-        wrong_weapon = 'Your weapon is not strong enough..',
-        to_much = 'You have to much in your pocket'
+    text = {
+        electrical = '~g~E~w~ - Hack Doorlock',
+        cabinet = '~g~E~w~ - Smash Cabinet'
     },
-    success = {},
-    info = {
-        progressbar = 'Smashing the display case',
-    },
-    general = {
-        target_label = 'Smash the display case',
-        drawtextui_grab = '[E] Smash the display case',
-        drawtextui_broken = 'Display case is broken'
+    notify = {
+        busy = 'Someone is already on it',
+        cabinetdone = 'This one is done already',
+        noweapon = 'You don\'t have a weapon in hand',
+        noitem = 'You don\'t have an %{item} with you',
+        police = 'Vangelico Store robbery reported',
+        nopolice = 'Not Enough Police (%{Required} Required)',
     }
 }
 

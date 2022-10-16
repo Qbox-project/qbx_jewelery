@@ -3,7 +3,7 @@ Jewelry Robbery For QB-Core
 
 ## Dependencies
 - [qb-core](https://github.com/QBCore-Remastered/qb-core) (Required)
-- [ox-target](https://github.com/overextended/ox_target) (Required)
+- [ox_target](https://github.com/overextended/ox_target) (Required)
 - [ox_lib](https://github.com/overextended/ox_lib) (Required)
 
 # Server.cfg Convar Update
