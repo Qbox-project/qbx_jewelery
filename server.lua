@@ -8,7 +8,7 @@ local AlarmFired
 lib.callback.register('qb-jewelery:callback:electricalbox', function(source)
     local Player = QBCore.Functions.GetPlayer(source)
     local PlayerCoords = GetEntityCoords(GetPlayerPed(source))
-    local Players, Amount = QBCore.Functions.GetPlayersOnDuty('police')
+    local Amount = QBCore.Functions.GetDutyCountType('leo')
 
     if ElectricalBusy then QBCore.Functions.Notify(source, Lang:t('notify.busy')) return end
     if not Player.Functions.GetItemByName(Config.Doorlock.RequiredItem) then QBCore.Functions.Notify(source, Lang:t('notify.noitem', { item = QBCore.Shared.Items[Config.Doorlock.RequiredItem].label }), 'error') return end
