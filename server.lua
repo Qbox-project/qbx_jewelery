@@ -17,7 +17,7 @@ lib.callback.register('qb-jewelery:callback:electricalbox', function(source)
 
     ElectricalBusy = true
     StartedElectrical[source] = true
-    if Config.Doorlock.LoseItemOnUse then Player.Function.RemoveItem(Config.Doorlock.RequiredItem) end
+    if Config.Doorlock.LoseItemOnUse then Player.Functions.RemoveItem(Config.Doorlock.RequiredItem) end
     return true
 end)
 
@@ -27,7 +27,7 @@ lib.callback.register('qb-jewelery:callback:cabinet', function(source, ClosestCa
     local AllPlayers = QBCore.Functions.GetQBPlayers()
 
     if #(PlayerCoords - Config.Cabinets[ClosestCabinet].coords) > 1.8 then return end
-    if not Config.WhitelistedWeapons[GetSelectedPedWeapon(PlayerPed)] then QBCore.Functions.Notify(source, Lang:t('notify.noweapon')) return end
+    if not Config.AllowedWeapons[GetSelectedPedWeapon(PlayerPed)] then QBCore.Functions.Notify(source, Lang:t('notify.noweapon')) return end
     if Config.Cabinets[ClosestCabinet].isBusy then QBCore.Functions.Notify(source, Lang:t('notify.busy')) return end
     if Config.Cabinets[ClosestCabinet].isOpened then QBCore.Functions.Notify(source, Lang:t('notify.cabinetdone')) return end
 
@@ -51,6 +51,8 @@ local function FireAlarm()
     TriggerClientEvent('qb-jewelery:client:alarm', -1)
     AlarmFired = true
     SetTimeout(Config.Timeout, function()
+        local DoorEntrance = exports.ox_doorlock:getDoorFromName(Config.Doorlock.Name)
+        TriggerEvent('ox_doorlock:setState', DoorEntrance.id, 1)
         AlarmFired = false
         TriggerEvent('qb-scoreboard:server:SetActivityBusy', 'jewellery', false)
         for i = 1, #Config.Cabinets do
@@ -73,7 +75,7 @@ RegisterNetEvent('qb-jewelery:server:endcabinet', function()
     Config.Cabinets[ClosestCabinet].isOpened = true
     Config.Cabinets[ClosestCabinet].isBusy = false
     StartedCabinet[source] = nil
-    for i = 1, math.random(Config.Reward.MinAmount, Config.Reward.MaxAmount) do
+    for _ = 1, math.random(Config.Reward.MinAmount, Config.Reward.MaxAmount) do
         local RandomItem = Config.Reward.Items[math.random(1, #Config.Reward.Items)]
         Player.Functions.AddItem(RandomItem.Name, math.random(RandomItem.Min, RandomItem.Max))
     end
@@ -115,3 +117,9 @@ CreateThread(function()
     Wait(100)
     SetEntityHeading(ElectricalBoxEntity, Config.Electrical.w)
 end)
+
+AddEventHandler('playerJoining', function(source)
+    TriggerClientEvent('qb-jewelery:client:syncconfig', source, Config.Cabinets)
+end)
+
+lib.versionCheck('Qbox-project/qb-jewelery')

@@ -5,6 +5,9 @@ Config.MinimumCops = 2
 Config.NotEnoughCopsNotify = true
 Config.Electrical = vector4(-624.295, -215.22, 52.54, 118.0)
 Config.FingerDropChance = 60
+Config.UseDrawText = false
+Config.UseTarget = false
+Config.AlarmDuration = 240000
 Config.Doorlock = {
     Name = 'vangelico_jewellery',
     HackTime = {
@@ -42,7 +45,7 @@ Config.Reward = {
     }
 }
 
-Config.WhitelistedWeapons = {
+Config.AllowedWeapons = {
     [`weapon_smg`] = true,
     [`weapon_combatpdw`] = true,
     [`weapon_gusenberg`] = true,
