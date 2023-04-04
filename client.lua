@@ -1,4 +1,4 @@
-local QBCore = exports['qb-core']:GetCoreObject()
+local QBCore = exports['qbx-core']:GetCoreObject()
 local AnimDictBox = 'anim@scripted@player@mission@tun_control_tower@male@'
 local AnimDictCabinet = 'missheist_jewel'
 local IsHacking
@@ -62,7 +62,7 @@ else
                 WaitTime = 0
                 Nearby = true
                 if Config.UseDrawText then
-                    if not HasShownText then HasShownText = true exports['qb-core']:DrawText(Lang:t('text.electrical')) end
+                    if not HasShownText then HasShownText = true exports['qbx-core']:DrawText(Lang:t('text.electrical')) end
                 else
                     DrawText3D(ElectricalCoords, Lang:t('text.electrical'))
                 end
@@ -75,7 +75,7 @@ else
                     end)
                 end
             end
-            if not Nearby and HasShownText then HasShownText = false exports['qb-core']:HideText() end
+            if not Nearby and HasShownText then HasShownText = false exports['qbx-core']:HideText() end
             Wait(WaitTime)
         end
     end)
@@ -178,7 +178,7 @@ else
             end
             if Nearby and not (IsSmashing or Config.Cabinets[ClosestCabinet].isOpened) then
                 if Config.UseDrawText then
-                    if not HasShownText then HasShownText = true exports['qb-core']:DrawText(Lang:t('text.cabinet')) end
+                    if not HasShownText then HasShownText = true exports['qbx-core']:DrawText(Lang:t('text.cabinet')) end
                 else
                     DrawText3D(Config.Cabinets[ClosestCabinet].coords, Lang:t('text.cabinet'))
                 end
@@ -187,12 +187,12 @@ else
                         if not CanSmash then return end
 
                         IsSmashing = true
-                        if HasShownText then HasShownText = false exports['qb-core']:HideText() end
+                        if HasShownText then HasShownText = false exports['qbx-core']:HideText() end
                         TriggerEvent('qb-jewelery:client:cabinetHandler')
                     end, ClosestCabinet)
                 end
             end
-            if not Nearby and HasShownText then HasShownText = false exports['qb-core']:HideText() end
+            if not Nearby and HasShownText then HasShownText = false exports['qbx-core']:HideText() end
             Wait(WaitTime)
         end
     end)
