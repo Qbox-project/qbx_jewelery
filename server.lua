@@ -1,5 +1,4 @@
 local QBCore = exports['qbx-core']:GetCoreObject()
-local ElectricalBoxEntity
 local ElectricalBusy
 local StartedElectrical = {}
 local StartedCabinet = {}
@@ -101,21 +100,6 @@ RegisterNetEvent('qb-jewellery:server:succeshackdoor', function()
     StartedElectrical[source] = false
     QBCore.Functions.Notify(source, 'Hack successful')
     TriggerEvent('ox_doorlock:setState', DoorEntrance.id, 0)
-end)
-
-AddEventHandler('onResourceStop', function(resource)
-    if resource ~= GetCurrentResourceName() then return end
-    if not DoesEntityExist(ElectricalBoxEntity) then return end
-    DeleteEntity(ElectricalBoxEntity)
-end)
-
-CreateThread(function()
-    Wait(250)
-    ElectricalBoxEntity = CreateObject(`tr_prop_tr_elecbox_01a`, Config.Electrical.x, Config.Electrical.y, Config.Electrical.z, true, false, false)
-    while ElectricalBoxEntity == 0 do ElectricalBoxEntity = CreateObject(`tr_prop_tr_elecbox_01a`, Config.Electrical.x, Config.Electrical.y, Config.Electrical.z, true, false, false) Wait(3000) end
-    while not DoesEntityExist(ElectricalBoxEntity) do Wait(0) end
-    Wait(100)
-    SetEntityHeading(ElectricalBoxEntity, Config.Electrical.w)
 end)
 
 AddEventHandler('playerJoining', function(source)

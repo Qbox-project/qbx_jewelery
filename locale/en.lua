@@ -1,6 +1,7 @@
 local Translations = {
     text = {
         electrical = '~g~E~w~ - Hack Doorlock',
+        electricalTarget = 'Hack Doorlock',
         cabinet = '~g~E~w~ - Smash Cabinet'
     },
     notify = {
