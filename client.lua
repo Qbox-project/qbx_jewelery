@@ -14,7 +14,7 @@ local AnimNameSmashFront = {
     'smash_case_tray_b',
     'smash_case_necklace_skull'
 }
-local insideJewellery = false
+local insideJewelry = false
 local electricalBoxEntity
 
 local function DrawText3D(coords, text)
@@ -282,7 +282,7 @@ lib.zones.sphere({
         createElectricalBox()
         CreateThread(function()
             
-            while insideJewellery do
+            while insideJewelry do
                 for i = 1, #Config.Cabinets do
                     if Config.Cabinets[i].isOpened then
                         local RayFire = GetRayfireMapObject(Config.Cabinets[i].coords.x, Config.Cabinets[i].coords.y, Config.Cabinets[i].coords.z, 1.4, Config.Cabinets[i].rayFire)
@@ -295,7 +295,7 @@ lib.zones.sphere({
     end,
     onExit = function()
         removeElectricalBox()
-        insideJewellery = false
+        insideJewelry = false
     end,
 })
 
