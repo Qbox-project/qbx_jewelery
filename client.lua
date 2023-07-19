@@ -60,7 +60,7 @@ end
 
 local function removeElectricalBox()
     if Config.UseTarget then
-        exports.ox_target:removeLocalEntity({electricalBoxEntity}, 'qb-jewelery:electricalBox')
+        exports.ox_target:removeLocalEntity(electricalBoxEntity, 'qb-jewelery:electricalBox')
     end
     if electricalBoxEntity ~= nil and DoesEntityExist(electricalBoxEntity) then
         DeleteObject(electricalBoxEntity)
