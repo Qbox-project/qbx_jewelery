@@ -162,7 +162,7 @@ if Config.UseTarget then
             coords = Config.Cabinets[i].coords,
             size = vec3(1.2, 1.6, 1),
             rotation = Config.Cabinets[i].heading,
-            debug = true,
+            --debug = true,
             options = {
                 {
                     icon = 'fas fa-gem',
@@ -277,7 +277,7 @@ end)
 lib.zones.sphere({
     coords = vec3(Config.Cabinets[1].coords.x, Config.Cabinets[1].coords.y, Config.Cabinets[1].coords.z),
     radius = 80,
-    debug = true,
+    --debug = true,
     onEnter = function()
         createElectricalBox()
         CreateThread(function()
