@@ -279,6 +279,7 @@ lib.zones.sphere({
     radius = 80,
     --debug = true,
     onEnter = function()
+        insideJewelry = true
         createElectricalBox()
         CreateThread(function()
             
