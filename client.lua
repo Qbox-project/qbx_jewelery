@@ -36,7 +36,6 @@ local function createElectricalBox()
     while not DoesEntityExist(electricalBoxEntity) do
         Wait(0)
     end
-    Wait(100)
     SetEntityHeading(electricalBoxEntity, Config.Electrical.w)
     if Config.UseTarget then
         local options = {
