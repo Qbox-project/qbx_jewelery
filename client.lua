@@ -14,6 +14,8 @@ local AnimNameSmashFront = {
     'smash_case_tray_b',
     'smash_case_necklace_skull'
 }
+local insideJewelry = false
+local electricalBoxEntity
 
 local function DrawText3D(coords, text)
     SetTextScale(0.35, 0.35)
@@ -29,16 +31,18 @@ local function DrawText3D(coords, text)
     ClearDrawOrigin()
 end
 
-if Config.UseTarget then
-    exports.ox_target:addBoxZone({
-        coords = vec3(Config.Electrical.x, Config.Electrical.y, Config.Electrical.z + 1.2),
-        size = vec3(1, 1, 2.4),
-        rotation = Config.Electrical.w,
-        debug = true,
-        options = {
+local function createElectricalBox()
+    electricalBoxEntity = CreateObject(`tr_prop_tr_elecbox_01a`, Config.Electrical.x, Config.Electrical.y, Config.Electrical.z, false, false, false)
+    while not DoesEntityExist(electricalBoxEntity) do
+        Wait(0)
+    end
+    SetEntityHeading(electricalBoxEntity, Config.Electrical.w)
+    if Config.UseTarget then
+        local options = {
             {
+                name = 'qb-jewelery:electricalBox',
                 icon = 'fab fa-usb',
-                label = Lang:t('text.electrical'),
+                label = Lang:t('text.electricalTarget'),
                 distance = 1.6,
                 items = Config.Doorlock.RequiredItem,
                 onSelect = function()
@@ -49,8 +53,21 @@ if Config.UseTarget then
                 end
             }
         }
-    })
-else
+        exports.ox_target:addLocalEntity(electricalBoxEntity, options)
+    end
+end
+
+local function removeElectricalBox()
+    if Config.UseTarget then
+        exports.ox_target:removeLocalEntity(electricalBoxEntity, 'qb-jewelery:electricalBox')
+    end
+    if electricalBoxEntity ~= nil and DoesEntityExist(electricalBoxEntity) then
+        DeleteObject(electricalBoxEntity)
+    end
+    electricalBoxEntity = nil
+end
+
+if not Config.UseTarget then
     CreateThread(function()
         local HasShownText
         while true do
@@ -144,7 +161,7 @@ if Config.UseTarget then
             coords = Config.Cabinets[i].coords,
             size = vec3(1.2, 1.6, 1),
             rotation = Config.Cabinets[i].heading,
-            debug = true,
+            --debug = true,
             options = {
                 {
                     icon = 'fas fa-gem',
@@ -256,20 +273,37 @@ RegisterNetEvent('qb-jewelery:client:alarm', function()
     StopAlarm('JEWEL_STORE_HEIST_ALARMS', true)
 end)
 
-CreateThread(function()
-    while true do
-        if #(GetEntityCoords(cache.ped) - Config.Cabinets[1].coords) < 50 then
-            for i = 1, #Config.Cabinets do
-                if Config.Cabinets[i].isOpened then
-                    local RayFire = GetRayfireMapObject(Config.Cabinets[i].coords.x, Config.Cabinets[i].coords.y, Config.Cabinets[i].coords.z, 1.4, Config.Cabinets[i].rayFire)
-                    SetStateOfRayfireMapObject(RayFire, 9)
+lib.zones.sphere({
+    coords = vec3(Config.Cabinets[1].coords.x, Config.Cabinets[1].coords.y, Config.Cabinets[1].coords.z),
+    radius = 80,
+    --debug = true,
+    onEnter = function()
+        insideJewelry = true
+        createElectricalBox()
+        CreateThread(function()
+            
+            while insideJewelry do
+                for i = 1, #Config.Cabinets do
+                    if Config.Cabinets[i].isOpened then
+                        local RayFire = GetRayfireMapObject(Config.Cabinets[i].coords.x, Config.Cabinets[i].coords.y, Config.Cabinets[i].coords.z, 1.4, Config.Cabinets[i].rayFire)
+                        SetStateOfRayfireMapObject(RayFire, 9)
+                    end
                 end
+                Wait(6000)
             end
-        end
-        Wait(6000)
-    end
-end)
+        end)
+    end,
+    onExit = function()
+        removeElectricalBox()
+        insideJewelry = false
+    end,
+})
 
 if GetResourceMetadata(GetCurrentResourceName(), 'shared_script', GetNumResourceMetadata(GetCurrentResourceName(), 'shared_script') - 1) == 'configs/kambi.lua' then
     --- Add more functionality later
 end
+
+AddEventHandler('onResourceStop', function(res)
+    if res ~= cache.resource then return end
+    removeElectricalBox()
+end)
