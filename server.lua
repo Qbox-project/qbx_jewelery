@@ -43,7 +43,7 @@ end)
 local function FireAlarm()
     if AlarmFired then return end
 
-    TriggerEvent('police:server:policeAlert', Lang:t('notify.police'))
+    TriggerEvent('police:server:policeAlert', Lang:t('notify.police'), 1, source)
     TriggerEvent('qb-scoreboard:server:SetActivityBusy', 'jewellery', true)
     TriggerClientEvent('qb-jewelery:client:alarm', -1)
     AlarmFired = true
