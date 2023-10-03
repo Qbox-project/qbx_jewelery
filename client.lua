@@ -1,4 +1,3 @@
-local QBCore = exports['qbx-core']:GetCoreObject()
 local AnimDictBox = 'anim@scripted@player@mission@tun_control_tower@male@'
 local AnimDictCabinet = 'missheist_jewel'
 local IsHacking
@@ -16,20 +15,6 @@ local AnimNameSmashFront = {
 }
 local insideJewelry = false
 local electricalBoxEntity
-
-local function DrawText3D(coords, text)
-    SetTextScale(0.35, 0.35)
-    SetTextFont(4)
-    SetTextColour(255, 255, 255, 215)
-    BeginTextCommandDisplayText("STRING")
-    SetTextCentre(true)
-    AddTextComponentSubstringPlayerName(text)
-    SetDrawOrigin(coords.x, coords.y, coords.z, 0)
-    EndTextCommandDisplayText(0.0, 0.0)
-    local factor = (string.len(text)) / 370
-    DrawRect(0.0, 0.0 + 0.0125, 0.017 + factor, 0.03, 0, 0, 0, 75)
-    ClearDrawOrigin()
-end
 
 local function createElectricalBox()
     electricalBoxEntity = CreateObject(`tr_prop_tr_elecbox_01a`, Config.Electrical.x, Config.Electrical.y, Config.Electrical.z, false, false, false)
@@ -79,9 +64,9 @@ if not Config.UseTarget then
                 WaitTime = 0
                 Nearby = true
                 if Config.UseDrawText then
-                    if not HasShownText then HasShownText = true exports['qbx-core']:DrawText(Lang:t('text.electrical')) end
+                    if not HasShownText then HasShownText = true lib.showTextUI(Lang:t('text.electrical')) end
                 else
-                    DrawText3D(ElectricalCoords, Lang:t('text.electrical'))
+                    DrawText3D(Lang:t('text.electrical'), ElectricalCoords)
                 end
                 if IsControlJustPressed(0, 38) then
                     lib.callback('qb-jewelery:callback:electricalbox', false, function(CanHack)
@@ -92,7 +77,7 @@ if not Config.UseTarget then
                     end)
                 end
             end
-            if not Nearby and HasShownText then HasShownText = false exports['qbx-core']:HideText() end
+            if not Nearby and HasShownText then HasShownText = false lib.hideTextUI() end
             Wait(WaitTime)
         end
     end)
@@ -125,7 +110,7 @@ AddEventHandler('qb-jewelery:client:electricalHandler', function()
         elseif result == 1 then
             TriggerServerEvent('qb-jewellery:server:succeshackdoor')
         elseif result == 2 then
-            QBCore.Functions.Notify('Timed out', 'error')
+            exports.qbx_core:Notify('Timed out', 'error')
         elseif result == -1 then
             print('Error occured', reason)
         end
@@ -142,10 +127,7 @@ local function StartRayFire(Coords, RayFire)
 end
 
 local function LoadParticle()
-    if not HasNamedPtfxAssetLoaded('scr_jewelheist') then
-        RequestNamedPtfxAsset('scr_jewelheist')
-        while not HasNamedPtfxAssetLoaded('scr_jewelheist') do Wait(0) end
-    end
+    lib.requestNamedPtfxAsset('scr_jewelheist')
     UseParticleFxAsset('scr_jewelheist')
 end
 
@@ -195,21 +177,21 @@ else
             end
             if Nearby and not (IsSmashing or Config.Cabinets[ClosestCabinet].isOpened) then
                 if Config.UseDrawText then
-                    if not HasShownText then HasShownText = true exports['qbx-core']:DrawText(Lang:t('text.cabinet')) end
+                    if not HasShownText then HasShownText = true lib.showTextUI(Lang:t('text.cabinet')) end
                 else
-                    DrawText3D(Config.Cabinets[ClosestCabinet].coords, Lang:t('text.cabinet'))
+                    DrawText3D(Lang:t('text.cabinet'), Config.Cabinets[ClosestCabinet].coords)
                 end
                 if IsControlJustPressed(0, 38) then
                     lib.callback('qb-jewelery:callback:cabinet', false, function(CanSmash)
                         if not CanSmash then return end
 
                         IsSmashing = true
-                        if HasShownText then HasShownText = false exports['qbx-core']:HideText() end
+                        if HasShownText then HasShownText = false lib.hideTextUI() end
                         TriggerEvent('qb-jewelery:client:cabinetHandler')
                     end, ClosestCabinet)
                 end
             end
-            if not Nearby and HasShownText then HasShownText = false exports['qbx-core']:HideText() end
+            if not Nearby and HasShownText then HasShownText = false lib.hideTextUI() end
             Wait(WaitTime)
         end
     end)
@@ -217,7 +199,7 @@ end
 
 AddEventHandler('qb-jewelery:client:cabinetHandler', function()
     local PlayerCoords = GetEntityCoords(cache.ped)
-    if not QBCore.Functions.IsWearingGloves() then
+    if not IsWearingGloves() then
         if Config.FingerDropChance > math.random(0, 100) then TriggerServerEvent('evidence:server:CreateFingerDrop', GetEntityCoords(cache.ped)) end
     end
     TaskAchieveHeading(cache.ped, Config.Cabinets[ClosestCabinet].heading, 1500)

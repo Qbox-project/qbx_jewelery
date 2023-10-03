@@ -1,19 +1,17 @@
-local QBCore = exports['qbx-core']:GetCoreObject()
 local ElectricalBusy
 local StartedElectrical = {}
 local StartedCabinet = {}
 local AlarmFired
 
 lib.callback.register('qb-jewelery:callback:electricalbox', function(source)
-    local Player = QBCore.Functions.GetPlayer(source)
+    local Player = exports.qbx_core:GetPlayer(source)
     local PlayerCoords = GetEntityCoords(GetPlayerPed(source))
-    local Amount = QBCore.Functions.GetDutyCountType('leo')
+    local Amount = exports.qbx_core:GetDutyCountType('leo')
 
-    if ElectricalBusy then QBCore.Functions.Notify(source, Lang:t('notify.busy')) return end
-    if not Player.Functions.GetItemByName(Config.Doorlock.RequiredItem) then QBCore.Functions.Notify(source, Lang:t('notify.noitem', { item = QBCore.Shared.Items[Config.Doorlock.RequiredItem].label }), 'error') return end
-    if Amount < Config.MinimumCops then if Config.NotEnoughCopsNotify then QBCore.Functions.Notify(source, Lang:t('notify.nopolice', { Required = Config.MinimumCops }), 'error') end return end
+    if ElectricalBusy then exports.qbx_core:Notify(source, Lang:t('notify.busy')) return end
+    if exports.ox_inventory:Search(source, 'count', Config.Doorlock.RequiredItem) < 1 then exports.qbx_core:Notify(source, Lang:t('notify.noitem', { item = QBCore.Shared.Items[Config.Doorlock.RequiredItem].label }), 'error') return end
+    if Amount < Config.MinimumCops then if Config.NotEnoughCopsNotify then exports.qbx_core:Notify(source, Lang:t('notify.nopolice', { Required = Config.MinimumCops }), 'error') end return end
     if #(PlayerCoords - vector3(Config.Electrical.x, Config.Electrical.y, Config.Electrical.z)) > 2 then return end
-
     ElectricalBusy = true
     StartedElectrical[source] = true
     if Config.Doorlock.LoseItemOnUse then Player.Functions.RemoveItem(Config.Doorlock.RequiredItem) end
@@ -23,12 +21,12 @@ end)
 lib.callback.register('qb-jewelery:callback:cabinet', function(source, ClosestCabinet)
     local PlayerPed = GetPlayerPed(source)
     local PlayerCoords = GetEntityCoords(PlayerPed)
-    local AllPlayers = QBCore.Functions.GetQBPlayers()
+    local AllPlayers = exports.qbx_core:GetQBPlayers()
 
     if #(PlayerCoords - Config.Cabinets[ClosestCabinet].coords) > 1.8 then return end
-    if not Config.AllowedWeapons[GetSelectedPedWeapon(PlayerPed)] then QBCore.Functions.Notify(source, Lang:t('notify.noweapon')) return end
-    if Config.Cabinets[ClosestCabinet].isBusy then QBCore.Functions.Notify(source, Lang:t('notify.busy')) return end
-    if Config.Cabinets[ClosestCabinet].isOpened then QBCore.Functions.Notify(source, Lang:t('notify.cabinetdone')) return end
+    if not Config.AllowedWeapons[GetSelectedPedWeapon(PlayerPed)] then exports.qbx_core:Notify(source, Lang:t('notify.noweapon')) return end
+    if Config.Cabinets[ClosestCabinet].isBusy then exports.qbx_core:Notify(source, Lang:t('notify.busy')) return end
+    if Config.Cabinets[ClosestCabinet].isOpened then exports.qbx_core:Notify(source, Lang:t('notify.cabinetdone')) return end
 
     StartedCabinet[source] = ClosestCabinet
     Config.Cabinets[ClosestCabinet].isBusy = true
@@ -62,7 +60,7 @@ local function FireAlarm()
 end
 
 RegisterNetEvent('qb-jewelery:server:endcabinet', function()
-    local Player = QBCore.Functions.GetPlayer(source)
+    local Player = exports.qbx_core:GetPlayer(source)
     local PlayerCoords = GetEntityCoords(GetPlayerPed(source))
     local ClosestCabinet = StartedCabinet[source]
 
@@ -85,7 +83,7 @@ end)
 RegisterNetEvent('qb-jewellery:server:failedhackdoor', function()
     ElectricalBusy = false
     StartedElectrical[source] = false
-    QBCore.Functions.Notify(source, 'Hack failed', 'error')
+    exports.qbx_core:Notify(source, 'Hack failed', 'error')
 end)
 
 RegisterNetEvent('qb-jewellery:server:succeshackdoor', function()
@@ -98,12 +96,10 @@ RegisterNetEvent('qb-jewellery:server:succeshackdoor', function()
 
     ElectricalBusy = false
     StartedElectrical[source] = false
-    QBCore.Functions.Notify(source, 'Hack successful')
+    exports.qbx_core:Notify(source, 'Hack successful')
     TriggerEvent('ox_doorlock:setState', DoorEntrance.id, 0)
 end)
 
 AddEventHandler('playerJoining', function(source)
     TriggerClientEvent('qb-jewelery:client:syncconfig', source, Config.Cabinets)
 end)
-
-lib.versionCheck('Qbox-project/qb-jewelery')
