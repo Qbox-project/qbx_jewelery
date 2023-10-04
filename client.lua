@@ -64,7 +64,7 @@ if not Config.UseTarget then
                 WaitTime = 0
                 Nearby = true
                 if Config.UseDrawText then
-                    if not HasShownText then HasShownText = true lib.showTextUI(Lang:t('text.electrical')) end
+                    if not HasShownText then HasShownText = true lib.showTextUI(Lang:t('text.electrical'), 'left-center') end
                 else
                     DrawText3D(Lang:t('text.electrical'), ElectricalCoords)
                 end
@@ -177,7 +177,7 @@ else
             end
             if Nearby and not (IsSmashing or Config.Cabinets[ClosestCabinet].isOpened) then
                 if Config.UseDrawText then
-                    if not HasShownText then HasShownText = true lib.showTextUI(Lang:t('text.cabinet')) end
+                    if not HasShownText then HasShownText = true lib.showTextUI(Lang:t('text.cabinet'),  'left-center') end
                 else
                     DrawText3D(Lang:t('text.cabinet'), Config.Cabinets[ClosestCabinet].coords)
                 end
