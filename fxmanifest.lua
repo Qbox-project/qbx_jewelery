@@ -1,7 +1,7 @@
 fx_version 'cerulean'
 game 'gta5'
 
-description 'QBX-Jewelry'
+description 'Robbery of the Vangelicos jewelry store'
 repository 'https://github.com/Qbox-project/qbx_jewelery'
 version '1.0.0'
 
