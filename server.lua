@@ -9,7 +9,7 @@ lib.callback.register('qb-jewelery:callback:electricalbox', function(source)
     local Amount = exports.qbx_core:GetDutyCountType('leo')
 
     if ElectricalBusy then exports.qbx_core:Notify(source, Lang:t('notify.busy')) return end
-    if exports.ox_inventory:Search(source, 'count', Config.Doorlock.RequiredItem) < 1 then exports.qbx_core:Notify(source, Lang:t('notify.noitem', { item = exports.ox_inventory:Items()[Config.Doorlock.RequiredItem].label }), 'error') return end
+    if exports.ox_inventory:Search(source, 'count', Config.Doorlock.RequiredItem) == 0 then exports.qbx_core:Notify(source, Lang:t('notify.noitem', { item = exports.ox_inventory:Items()[Config.Doorlock.RequiredItem].label }), 'error') return end
     if Amount < Config.MinimumCops then if Config.NotEnoughCopsNotify then exports.qbx_core:Notify(source, Lang:t('notify.nopolice', { Required = Config.MinimumCops }), 'error') end return end
     if #(PlayerCoords - vector3(Config.Electrical.x, Config.Electrical.y, Config.Electrical.z)) > 2 then return end
     ElectricalBusy = true
