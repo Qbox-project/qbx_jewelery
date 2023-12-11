@@ -1,3 +1,5 @@
+local config = require 'config.client'
+local sharedConfig = require 'config.shared'
 local AnimDictBox = 'anim@scripted@player@mission@tun_control_tower@male@'
 local AnimDictCabinet = 'missheist_jewel'
 local IsHacking
@@ -17,19 +19,19 @@ local insideJewelry = false
 local electricalBoxEntity
 
 local function createElectricalBox()
-    electricalBoxEntity = CreateObject(`tr_prop_tr_elecbox_01a`, Config.Electrical.x, Config.Electrical.y, Config.Electrical.z, false, false, false)
+    electricalBoxEntity = CreateObject(`tr_prop_tr_elecbox_01a`, config.electrical.x, config.electrical.y, config.electrical.z, false, false, false)
     while not DoesEntityExist(electricalBoxEntity) do
         Wait(0)
     end
-    SetEntityHeading(electricalBoxEntity, Config.Electrical.w)
-    if Config.UseTarget then
+    SetEntityHeading(electricalBoxEntity, config.electrical.w)
+    if config.useTarget then
         local options = {
             {
                 name = 'qb-jewelery:electricalBox',
                 icon = 'fab fa-usb',
                 label = Lang:t('text.electricalTarget'),
                 distance = 1.6,
-                items = Config.Doorlock.RequiredItem,
+                items = sharedConfig.doorlock.requiredItem,
                 onSelect = function()
                     lib.callback('qb-jewelery:callback:electricalbox', false, function(CanHack)
                         if not CanHack then return end
@@ -43,7 +45,7 @@ local function createElectricalBox()
 end
 
 local function removeElectricalBox()
-    if Config.UseTarget then
+    if config.useTarget then
         exports.ox_target:removeLocalEntity(electricalBoxEntity, 'qb-jewelery:electricalBox')
     end
     if electricalBoxEntity ~= nil and DoesEntityExist(electricalBoxEntity) then
@@ -52,18 +54,18 @@ local function removeElectricalBox()
     electricalBoxEntity = nil
 end
 
-if not Config.UseTarget then
+if not config.useTarget then
     CreateThread(function()
         local HasShownText
         while true do
             local PlayerCoords = GetEntityCoords(cache.ped)
-            local ElectricalCoords = vector3(Config.Electrical.x, Config.Electrical.y, Config.Electrical.z + 1.1)
+            local ElectricalCoords = vector3(config.electrical.x, config.electrical.y, config.electrical.z + 1.1)
             local WaitTime = 800
             local Nearby = false
             if #(PlayerCoords - ElectricalCoords) <= 1.5 and not IsHacking then
                 WaitTime = 0
                 Nearby = true
-                if Config.UseDrawText then
+                if config.useDrawText then
                     if not HasShownText then HasShownText = true lib.showTextUI(Lang:t('text.electrical'), 'left-center') end
                 else
                     DrawText3D(Lang:t('text.electrical'), ElectricalCoords)
@@ -87,13 +89,13 @@ AddEventHandler('qb-jewelery:client:electricalHandler', function()
     lib.requestAnimDict(AnimDictBox)
     local PlayerCoords = GetEntityCoords(cache.ped)
     local Box = GetClosestObjectOfType(PlayerCoords.x, PlayerCoords.y, PlayerCoords.z, 1.5, `tr_prop_tr_elecbox_01a`, false, false, false)
-    local EnterScene = NetworkCreateSynchronisedScene(Config.Electrical.x, Config.Electrical.y, Config.Electrical.z, 0, 0, Config.Electrical.w, 2, true, false, 1065353216, -1, 1.0)
+    local EnterScene = NetworkCreateSynchronisedScene(config.electrical.x, config.electrical.y, config.electrical.z, 0, 0, config.electrical.w, 2, true, false, 1065353216, -1, 1.0)
     NetworkAddPedToSynchronisedScene(cache.ped, EnterScene, AnimDictBox, 'enter', 1.5, -4.0, 1, 16, 1148846080, 0)
     NetworkAddEntityToSynchronisedScene(Box, EnterScene, AnimDictBox, 'enter_electric_box', 4.0, -8.0, 1)
-    local LoopingScene = NetworkCreateSynchronisedScene(Config.Electrical.x, Config.Electrical.y, Config.Electrical.z, 0, 0, Config.Electrical.w, 2, false, true, 1065353216, -1, 1.0)
+    local LoopingScene = NetworkCreateSynchronisedScene(config.electrical.x, config.electrical.y, config.electrical.z, 0, 0, config.electrical.w, 2, false, true, 1065353216, -1, 1.0)
     NetworkAddPedToSynchronisedScene(cache.ped, LoopingScene, AnimDictBox, 'loop', 1.5, -4.0, 1, 16, 1148846080, 0)
     NetworkAddEntityToSynchronisedScene(Box, LoopingScene, AnimDictBox, 'loop_electric_box', 4.0, -8.0, 1)
-    local LeavingScene = NetworkCreateSynchronisedScene(Config.Electrical.x, Config.Electrical.y, Config.Electrical.z, 0, 0, Config.Electrical.w, 2, true, false, 1065353216, -1, 1.0)
+    local LeavingScene = NetworkCreateSynchronisedScene(config.electrical.x, config.electrical.y, config.electrical.z, 0, 0, config.electrical.w, 2, true, false, 1065353216, -1, 1.0)
     NetworkAddPedToSynchronisedScene(cache.ped, LeavingScene, AnimDictBox, 'exit', 1.5, -4.0, 1, 16, 1148846080, 0)
     NetworkAddEntityToSynchronisedScene(Box, LeavingScene, AnimDictBox, 'exit_electric_box', 4.0, -8.0, 1)
 
@@ -101,7 +103,7 @@ AddEventHandler('qb-jewelery:client:electricalHandler', function()
     Wait(GetAnimDuration(AnimDictBox, 'enter') * 1000)
     NetworkStartSynchronisedScene(LoopingScene)
 
-    TriggerEvent('ultra-voltlab', math.random(Config.Doorlock.HackTime.Min, Config.Doorlock.HackTime.Max), function(result, reason)
+    TriggerEvent('ultra-voltlab', math.random(sharedConfig.doorlock.hackTime.min, sharedConfig.doorlock.hackTime.max), function(result, reason)
         Wait(2500)
         NetworkStartSynchronisedScene(LeavingScene)
         IsHacking = false
@@ -137,12 +139,12 @@ local function PlaySmashAudio(Coords)
     ReleaseSoundId(SoundId)
 end
 
-if Config.UseTarget then
-    for i = 1, #Config.Cabinets do
+if config.useTarget then
+    for i = 1, #sharedConfig.cabinets do
         exports.ox_target:addBoxZone({
-            coords = Config.Cabinets[i].coords,
+            coords = sharedConfig.cabinets[i].coords,
             size = vec3(1.2, 1.6, 1),
-            rotation = Config.Cabinets[i].heading,
+            rotation = sharedConfig.cabinets[i].heading,
             --debug = true,
             options = {
                 {
@@ -167,19 +169,19 @@ else
             local PlayerCoords = GetEntityCoords(cache.ped)
             local Nearby = false
             local WaitTime = 800
-            for i = 1, #Config.Cabinets do
-                if #(PlayerCoords - Config.Cabinets[i].coords) < 0.5 then
+            for i = 1, #sharedConfig.cabinets do
+                if #(PlayerCoords - sharedConfig.cabinets[i].coords) < 0.5 then
                     if not ClosestCabinet then ClosestCabinet = i
-                    elseif #(PlayerCoords - Config.Cabinets[i].coords) < #(PlayerCoords - Config.Cabinets[ClosestCabinet].coords) then ClosestCabinet = i end
+                    elseif #(PlayerCoords - sharedConfig.cabinets[i].coords) < #(PlayerCoords - sharedConfig.cabinets[ClosestCabinet].coords) then ClosestCabinet = i end
                     WaitTime = 0
                     Nearby = true
                 end
             end
-            if Nearby and not (IsSmashing or Config.Cabinets[ClosestCabinet].isOpened) then
-                if Config.UseDrawText then
+            if Nearby and not (IsSmashing or sharedConfig.cabinets[ClosestCabinet].isOpened) then
+                if config.useDrawText then
                     if not HasShownText then HasShownText = true lib.showTextUI(Lang:t('text.cabinet'),  'left-center') end
                 else
-                    DrawText3D(Lang:t('text.cabinet'), Config.Cabinets[ClosestCabinet].coords)
+                    DrawText3D(Lang:t('text.cabinet'), sharedConfig.cabinets[ClosestCabinet].coords)
                 end
                 if IsControlJustPressed(0, 38) then
                     lib.callback('qb-jewelery:callback:cabinet', false, function(CanSmash)
@@ -200,21 +202,21 @@ end
 AddEventHandler('qb-jewelery:client:cabinetHandler', function()
     local PlayerCoords = GetEntityCoords(cache.ped)
     if not IsWearingGloves() then
-        if Config.FingerDropChance > math.random(0, 100) then TriggerServerEvent('evidence:server:CreateFingerDrop', GetEntityCoords(cache.ped)) end
+        if config.fingerprintDropChance > math.random(0, 100) then TriggerServerEvent('evidence:server:CreateFingerDrop', GetEntityCoords(cache.ped)) end
     end
-    TaskAchieveHeading(cache.ped, Config.Cabinets[ClosestCabinet].heading, 1500)
+    TaskAchieveHeading(cache.ped, sharedConfig.cabinets[ClosestCabinet].heading, 1500)
     Wait(1500)
     lib.requestAnimDict(AnimDictCabinet)
-    if Config.Cabinets[ClosestCabinet].rayFire == 'DES_Jewel_Cab4' then
+    if sharedConfig.cabinets[ClosestCabinet].rayFire == 'DES_Jewel_Cab4' then
         AnimName = AnimNameSmashFront[math.random(1, #AnimNameSmashFront)]
         TaskPlayAnim(cache.ped, AnimDictCabinet, AnimName, 3.0, 3.0, -1, 2, 0, false, false, false)
         Wait(150)
-        StartRayFire(PlayerCoords, Config.Cabinets[ClosestCabinet].rayFire)
-    elseif Config.Cabinets[ClosestCabinet].rayFire then
+        StartRayFire(PlayerCoords, sharedConfig.cabinets[ClosestCabinet].rayFire)
+    elseif sharedConfig.cabinets[ClosestCabinet].rayFire then
         AnimName = AnimNameSmashTop[math.random(1, #AnimNameSmashTop)]
         TaskPlayAnim(cache.ped, AnimDictCabinet, AnimName, 3.0, 3.0, -1, 2, 0, false, false, false)
         Wait(300)
-        StartRayFire(PlayerCoords, Config.Cabinets[ClosestCabinet].rayFire)
+        StartRayFire(PlayerCoords, sharedConfig.cabinets[ClosestCabinet].rayFire)
     else
         AnimName = AnimNameSmashTop[math.random(1, #AnimNameSmashTop)]
         TaskPlayAnim(cache.ped, AnimDictCabinet, AnimName, 3.0, 3.0, -1, 2, 0, false, false, false)
@@ -231,32 +233,32 @@ end)
 
 RegisterNetEvent('qb-jewelery:client:synceffects', function(ClosestCabinet, OriginalPlayer)
     Wait(1500)
-    if Config.Cabinets[ClosestCabinet].rayFire == 'DES_Jewel_Cab4' then
+    if sharedConfig.cabinets[ClosestCabinet].rayFire == 'DES_Jewel_Cab4' then
         Wait(150)
-        StartRayFire(Config.Cabinets[ClosestCabinet].coords, Config.Cabinets[ClosestCabinet].rayFire)
-    elseif Config.Cabinets[ClosestCabinet].rayFire then
+        StartRayFire(sharedConfig.cabinets[ClosestCabinet].coords, sharedConfig.cabinets[ClosestCabinet].rayFire)
+    elseif sharedConfig.cabinets[ClosestCabinet].rayFire then
         Wait(300)
-        StartRayFire(Config.Cabinets[ClosestCabinet].coords, Config.Cabinets[ClosestCabinet].rayFire)
+        StartRayFire(sharedConfig.cabinets[ClosestCabinet].coords, sharedConfig.cabinets[ClosestCabinet].rayFire)
     end
     LoadParticle()
     StartNetworkedParticleFxNonLoopedOnEntity('scr_jewel_cab_smash', GetCurrentPedWeaponEntityIndex(GetPlayerPed(GetPlayerFromServerId(OriginalPlayer))), 0, 0, 0, 0, 0, 0, 1.6, false, false, false)
-    PlaySmashAudio(Config.Cabinets[ClosestCabinet].coords)
+    PlaySmashAudio(sharedConfig.cabinets[ClosestCabinet].coords)
 end)
 
 RegisterNetEvent('qb-jewelery:client:syncconfig', function(Cabinets)
-    Config.Cabinets = Cabinets
+    sharedConfig.cabinets = Cabinets
 end)
 
 RegisterNetEvent('qb-jewelery:client:alarm', function()
     PrepareAlarm('JEWEL_STORE_HEIST_ALARMS')
     Wait(100)
     StartAlarm('JEWEL_STORE_HEIST_ALARMS', false)
-    Wait(Config.AlarmDuration)
+    Wait(config.alarmDuration)
     StopAlarm('JEWEL_STORE_HEIST_ALARMS', true)
 end)
 
 lib.zones.sphere({
-    coords = vec3(Config.Cabinets[1].coords.x, Config.Cabinets[1].coords.y, Config.Cabinets[1].coords.z),
+    coords = vec3(sharedConfig.cabinets[1].coords.x, sharedConfig.cabinets[1].coords.y, sharedConfig.cabinets[1].coords.z),
     radius = 80,
     --debug = true,
     onEnter = function()
@@ -265,9 +267,9 @@ lib.zones.sphere({
         CreateThread(function()
             
             while insideJewelry do
-                for i = 1, #Config.Cabinets do
-                    if Config.Cabinets[i].isOpened then
-                        local RayFire = GetRayfireMapObject(Config.Cabinets[i].coords.x, Config.Cabinets[i].coords.y, Config.Cabinets[i].coords.z, 1.4, Config.Cabinets[i].rayFire)
+                for i = 1, #sharedConfig.cabinets do
+                    if sharedConfig.cabinets[i].isOpened then
+                        local RayFire = GetRayfireMapObject(sharedConfig.cabinets[i].coords.x, sharedConfig.cabinets[i].coords.y, sharedConfig.cabinets[i].coords.z, 1.4, sharedConfig.cabinets[i].rayFire)
                         SetStateOfRayfireMapObject(RayFire, 9)
                     end
                 end
