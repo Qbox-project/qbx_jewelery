@@ -2,6 +2,7 @@ local config = require 'config.client'
 local sharedConfig = require 'config.shared'
 local isHacking
 local isSmashing
+local closestVitrine = 1
 local animName
 local insideJewelry = false
 local electricalBoxEntity
@@ -115,8 +116,8 @@ AddEventHandler('qb-jewelery:client:electricalHandler', function()
     end)
 end)
 
-local function startRayFire(Coords, RayFire)
-    local RayFireObject = GetRayfireMapObject(Coords.x, Coords.y, Coords.z, 1.4, RayFire)
+local function startRayFire(coords, rayFire)
+    local RayFireObject = GetRayfireMapObject(coords.x, coords.y, coords.z, 1.4, rayFire)
     SetStateOfRayfireMapObject(RayFireObject, 4)
     Wait(100)
     SetStateOfRayfireMapObject(RayFireObject, 6)
@@ -127,9 +128,9 @@ local function loadParticle()
     UseParticleFxAsset('scr_jewelheist')
 end
 
-local function playSmashAudio(Coords)
+local function playSmashAudio(coords)
     local soundId = GetSoundId()
-    PlaySoundFromCoord(soundId, 'Glass_Smash', Coords.x, Coords.y, Coords.z, '', false, 6.0, false)
+    PlaySoundFromCoord(soundId, 'Glass_Smash', coords.x, coords.y, coords.z, '', false, 6.0, false)
     ReleaseSoundId(soundId)
 end
 
@@ -237,7 +238,7 @@ AddEventHandler('qb-jewelery:client:cabinetHandler', function()
     TriggerServerEvent('qb-jewelery:server:endcabinet')
 end)
 
-RegisterNetEvent('qb-jewelery:client:synceffects', function(closestVitrine, OriginalPlayer)
+RegisterNetEvent('qb-jewelery:client:synceffects', function(closestVitrine, originalPlayer)
     Wait(1500)
     if sharedConfig.vitrines[closestVitrine].rayFire == 'DES_Jewel_Cab4' then
         Wait(150)
@@ -247,7 +248,7 @@ RegisterNetEvent('qb-jewelery:client:synceffects', function(closestVitrine, Orig
         startRayFire(sharedConfig.vitrines[closestVitrine].coords, sharedConfig.vitrines[closestVitrine].rayFire)
     end
     loadParticle()
-    StartNetworkedParticleFxNonLoopedOnEntity('scr_jewel_cab_smash', GetCurrentPedWeaponEntityIndex(GetPlayerPed(GetPlayerFromServerId(OriginalPlayer))), 0, 0, 0, 0, 0, 0, 1.6, false, false, false)
+    StartNetworkedParticleFxNonLoopedOnEntity('scr_jewel_cab_smash', GetCurrentPedWeaponEntityIndex(GetPlayerPed(GetPlayerFromServerId(originalPlayer))), 0, 0, 0, 0, 0, 0, 1.6, false, false, false)
     playSmashAudio(sharedConfig.vitrines[closestVitrine].coords)
 end)
 
@@ -271,12 +272,11 @@ lib.zones.sphere({
         insideJewelry = true
         createElectricalBox()
         CreateThread(function()
-            
             while insideJewelry do
                 for i = 1, #sharedConfig.vitrines do
                     if sharedConfig.vitrines[i].isOpened then
-                        local RayFire = GetRayfireMapObject(sharedConfig.vitrines[i].coords.x, sharedConfig.vitrines[i].coords.y, sharedConfig.vitrines[i].coords.z, 1.4, sharedConfig.vitrines[i].rayFire)
-                        SetStateOfRayfireMapObject(RayFire, 9)
+                        local rayFire = GetRayfireMapObject(sharedConfig.vitrines[i].coords.x, sharedConfig.vitrines[i].coords.y, sharedConfig.vitrines[i].coords.z, 1.4, sharedConfig.vitrines[i].rayFire)
+                        SetStateOfRayfireMapObject(rayFire, 9)
                     end
                 end
                 Wait(6000)
@@ -288,10 +288,6 @@ lib.zones.sphere({
         insideJewelry = false
     end,
 })
-
-if GetResourceMetadata(GetCurrentResourceName(), 'shared_script', GetNumResourceMetadata(GetCurrentResourceName(), 'shared_script') - 1) == 'configs/kambi.lua' then
-    --- Add more functionality later
-end
 
 AddEventHandler('onResourceStop', function(resouce)
     if resouce ~= cache.resource then return end
