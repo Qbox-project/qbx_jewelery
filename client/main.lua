@@ -2,7 +2,7 @@ local config = require 'config.client'
 local sharedConfig = require 'config.shared'
 local isHacking
 local isSmashing
-
+local closestVitrine = 1
 local animName
 local insideJewelry = false
 local electricalBoxEntity
@@ -134,7 +134,6 @@ local function playSmashAudio(coords)
     ReleaseSoundId(soundId)
 end
 
-local closestVitrine = 1
 if config.useTarget then
     for i = 1, #sharedConfig.vitrines do
         exports.ox_target:addBoxZone({
