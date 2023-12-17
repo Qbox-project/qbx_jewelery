@@ -9,7 +9,7 @@ return {
         loseItemOnUse = true,
     },
 
-    cabinets = {
+    vitrines = {
         [1] = {coords = vec3(-626.83, -235.35, 38.05), isOpened = false, isBusy = false, rayFire = 'DES_Jewel_Cab3', heading = 36.17},
         [2] = {coords = vec3(-625.81, -234.7, 38.05), isOpened = false, isBusy = false, rayFire = 'DES_Jewel_Cab4', heading = 36.17},
         [3] = {coords = vec3(-626.95, -233.14, 38.05), isOpened = false, isBusy = false, rayFire = 'DES_Jewel_Cab', heading = 216.17},
