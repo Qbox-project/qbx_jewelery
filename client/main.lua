@@ -238,7 +238,8 @@ AddEventHandler('qb-jewelery:client:cabinetHandler', function()
     TriggerServerEvent('qb-jewelery:server:endcabinet')
 end)
 
-RegisterNetEvent('qb-jewelery:client:synceffects', function(closestVitrine, originalPlayer)
+RegisterNetEvent('qb-jewelery:client:synceffects', function(closestVitrines, originalPlayer)
+    closestVitrine = closestVitrines
     Wait(1500)
     if sharedConfig.vitrines[closestVitrine].rayFire == 'DES_Jewel_Cab4' then
         Wait(150)

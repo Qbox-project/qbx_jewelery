@@ -16,7 +16,7 @@ return {
         [4] = {coords = vec3(-628.0, -233.86, 38.05), isOpened = false, isBusy = false, rayFire = 'DES_Jewel_Cab', heading = 216.17},
         [5] = {coords = vec3(-625.7, -237.8, 38.05), isOpened = false, isBusy = false, rayFire = 'DES_Jewel_Cab3', heading = 216.17},
         [6] = {coords = vec3(-626.7, -238.58, 38.05), isOpened = false, isBusy = false,  rayFire = 'DES_Jewel_Cab2', heading = 216.17},
-        [7] = {oords = vec3(-624.55, -231.06, 38.05), isOpened = false, isBusy = false, rayFire = 'DES_Jewel_Cab4', heading = 305.0},
+        [7] = {coords = vec3(-624.55, -231.06, 38.05), isOpened = false, isBusy = false, rayFire = 'DES_Jewel_Cab4', heading = 305.0},
         [8] = {coords = vec3(-623.13, -232.94, 38.05), isOpened = false, isBusy = false, rayFire = 'DES_Jewel_Cab', heading = 305.0},
         [9] = {coords = vec3(-620.29, -234.44, 38.05), isOpened = false, isBusy = false, rayFire = 'DES_Jewel_Cab', heading = 216.17},
         [10] = {coords = vec3(-619.15, -233.66, 38.05), isOpened = false, isBusy = false,  rayFire = 'DES_Jewel_Cab3', heading = 216.17},
