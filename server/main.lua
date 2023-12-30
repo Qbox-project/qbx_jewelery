@@ -17,7 +17,7 @@ lib.callback.register('qb-jewelery:callback:electricalbox', function(source)
     end
 
     if exports.ox_inventory:Search(source, 'count', sharedConfig.doorlock.requiredItem) == 0 then
-        exports.qbx_core:Notify(source, Lang:t('notify.noitem', {item = ITEMS[sharedConfig.doorlock.RrequiredItem].label}), 'error')
+        exports.qbx_core:Notify(source, Lang:t('notify.noitem', {item = ITEMS[sharedConfig.doorlock.requiredItem].label}), 'error')
         return
     end
     if amount < config.minimumPolice then
@@ -27,13 +27,13 @@ lib.callback.register('qb-jewelery:callback:electricalbox', function(source)
         return
     end
     
-    if #(playerCoords - vector3(config.electrical.x, config.electrical.y, config.electrical.z)) > 2 then return end
+    if #(playerCoords - vector3(sharedConfig.electrical.x, sharedConfig.electrical.y, sharedConfig.electrical.z)) > 2 then return end
 
     electricalBusy = true
     startedElectrical[source] = true
 
     if sharedConfig.doorlock.loseItemOnUse then
-        player.Functions.RemoveItem(sharedConfig.doorlock.requiredItem)
+        player.Functions.RemoveItem(sharedConfig.doorlock.requiredItem, 1)
     end
 
     return true
@@ -121,7 +121,6 @@ end)
 RegisterNetEvent('qb-jewellery:server:failedhackdoor', function()
     electricalBusy = false
     startedElectrical[source] = false
-    exports.qbx_core:Notify(source, 'Hack failed', 'error')
 end)
 
 RegisterNetEvent('qb-jewellery:server:succeshackdoor', function()
@@ -130,7 +129,7 @@ RegisterNetEvent('qb-jewellery:server:succeshackdoor', function()
 
     if not electricalBusy then return end
     if not startedElectrical[source] then return end
-    if #(playerCoords - vector3(config.electrical.x, config.electrical.y, config.electrical.z)) > 2 then return end
+    if #(playerCoords - vector3(sharedConfig.electrical.x, sharedConfig.electrical.y, sharedConfig.electrical.z)) > 2 then return end
 
     electricalBusy = false
     startedElectrical[source] = false
