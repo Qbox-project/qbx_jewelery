@@ -1,4 +1,5 @@
 return {
+    electrical = vec4(-624.295, -215.22, 52.54, 118.0),
     doorlock = {
         name = 'vangelico_jewellery',
         hackTime = {

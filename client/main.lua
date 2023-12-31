@@ -8,11 +8,11 @@ local insideJewelry = false
 local electricalBoxEntity
 
 local function createElectricalBox()
-    electricalBoxEntity = CreateObject(`tr_prop_tr_elecbox_01a`, config.electrical.x, config.electrical.y, config.electrical.z, false, false, false)
+    electricalBoxEntity = CreateObject(`tr_prop_tr_elecbox_01a`, sharedConfig.electrical.x, sharedConfig.electrical.y, sharedConfig.electrical.z, false, false, false)
     while not DoesEntityExist(electricalBoxEntity) do
         Wait(0)
     end
-    SetEntityHeading(electricalBoxEntity, config.electrical.w)
+    SetEntityHeading(electricalBoxEntity, sharedConfig.electrical.w)
     if config.useTarget then
         exports.ox_target:addLocalEntity(electricalBoxEntity, {
             {
@@ -47,7 +47,7 @@ if not config.useTarget then
         local hasShownText
         while true do
             local playerCoords = GetEntityCoords(cache.ped)
-            local electricalCoords = vector3(config.electrical.x, config.electrical.y, config.electrical.z + 1.1)
+            local electricalCoords = vector3(sharedConfig.electrical.x, sharedConfig.electrical.y, sharedConfig.electrical.z + 1.1)
             local waitTime = 800
             local nearby = false
             if #(playerCoords - electricalCoords) <= 1.5 and not isHacking then
@@ -56,7 +56,9 @@ if not config.useTarget then
                 if config.useDrawText then
                     if not hasShownText then
                         hasShownText = true
-                        lib.showTextUI(Lang:t('text.electrical'), 'left-center')
+                        lib.showTextUI(Lang:t('text.electrical'), {
+                            position = 'left-center',
+                        })
                     end
                 else
                     DrawText3D(Lang:t('text.electrical'), electricalCoords)
@@ -83,13 +85,13 @@ AddEventHandler('qb-jewelery:client:electricalHandler', function()
     lib.requestAnimDict(animDictBox)
     local playerCoords = GetEntityCoords(cache.ped)
     local box = GetClosestObjectOfType(playerCoords.x, playerCoords.y, playerCoords.z, 1.5, `tr_prop_tr_elecbox_01a`, false, false, false)
-    local enterScene = NetworkCreateSynchronisedScene(config.electrical.x, config.electrical.y, config.electrical.z, 0, 0, config.electrical.w, 2, true, false, 1065353216, -1, 1.0)
+    local enterScene = NetworkCreateSynchronisedScene(sharedConfig.electrical.x, sharedConfig.electrical.y, sharedConfig.electrical.z, 0, 0, sharedConfig.electrical.w, 2, true, false, 1065353216, -1, 1.0)
     NetworkAddPedToSynchronisedScene(cache.ped, enterScene, animDictBox, 'enter', 1.5, -4.0, 1, 16, 1148846080, 0)
     NetworkAddEntityToSynchronisedScene(box, enterScene, animDictBox, 'enter_electric_box', 4.0, -8.0, 1)
-    local loopingScene = NetworkCreateSynchronisedScene(config.electrical.x, config.electrical.y, config.electrical.z, 0, 0, config.electrical.w, 2, false, true, 1065353216, -1, 1.0)
+    local loopingScene = NetworkCreateSynchronisedScene(sharedConfig.electrical.x, sharedConfig.electrical.y, sharedConfig.electrical.z, 0, 0, sharedConfig.electrical.w, 2, false, true, 1065353216, -1, 1.0)
     NetworkAddPedToSynchronisedScene(cache.ped, loopingScene, animDictBox, 'loop', 1.5, -4.0, 1, 16, 1148846080, 0)
     NetworkAddEntityToSynchronisedScene(box, loopingScene, animDictBox, 'loop_electric_box', 4.0, -8.0, 1)
-    local leavingScene = NetworkCreateSynchronisedScene(config.electrical.x, config.electrical.y, config.electrical.z, 0, 0, config.electrical.w, 2, true, false, 1065353216, -1, 1.0)
+    local leavingScene = NetworkCreateSynchronisedScene(sharedConfig.electrical.x, sharedConfig.electrical.y, sharedConfig.electrical.z, 0, 0, sharedConfig.electrical.w, 2, true, false, 1065353216, -1, 1.0)
     NetworkAddPedToSynchronisedScene(cache.ped, leavingScene, animDictBox, 'exit', 1.5, -4.0, 1, 16, 1148846080, 0)
     NetworkAddEntityToSynchronisedScene(box, leavingScene, animDictBox, 'exit_electric_box', 4.0, -8.0, 1)
 
@@ -102,13 +104,17 @@ AddEventHandler('qb-jewelery:client:electricalHandler', function()
         Wait(2500)
         NetworkStartSynchronisedScene(leavingScene)
         isHacking = false
-        if result == 0 then
+        if result == 0 then -- Failed
             TriggerServerEvent('qb-jewellery:server:failedhackdoor')
-        elseif result == 1 then
+            exports.qbx_core:Notify(reason, 'error')
+        elseif result == 1 then -- Succeeded
             TriggerServerEvent('qb-jewellery:server:succeshackdoor')
-        elseif result == 2 then
-            exports.qbx_core:Notify('Timed out', 'error')
-        elseif result == -1 then
+        elseif result == 2 then -- Timed out
+            TriggerServerEvent('qb-jewellery:server:failedhackdoor')
+            exports.qbx_core:Notify(reason, 'error')
+        elseif result == -1 then -- Some error
+            TriggerServerEvent('qb-jewellery:server:failedhackdoor')
+            exports.qbx_core:Notify('Failed hack', 'error')
             print('Error occured', reason)
         end
         Wait(GetAnimDuration(animDictBox, 'exit') * 1000)
@@ -174,7 +180,12 @@ else
             end
             if nearby and not (isSmashing or sharedConfig.vitrines[closestVitrine].isOpened) then
                 if config.useDrawText then
-                    if not hasShownText then hasShownText = true lib.showTextUI(Lang:t('text.cabinet'),  'left-center') end
+                    if not hasShownText then
+                        hasShownText = true
+                        lib.showTextUI(Lang:t('text.cabinet'), {
+                            position = 'left-center'
+                        })
+                    end
                 else
                     DrawText3D(Lang:t('text.cabinet'), sharedConfig.vitrines[closestVitrine].coords)
                 end

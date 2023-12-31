@@ -1,8 +1,11 @@
 return {
+    timeOut = 2700000,
+    minimumPolice = 0,
+    notEnoughPoliceNotify = true,
     reward = {
         minAmount = 1,
         maxAmount = 2,
-        Items = {
+        items = {
             [1] = {name = 'rolex', min = 1, max = 4},
             [2] = {name = 'diamond_ring', min = 1, max = 4},
             [3] = {name = 'goldchain', min = 1, max = 4},
