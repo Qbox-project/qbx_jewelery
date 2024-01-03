@@ -7,6 +7,14 @@ local animName
 local insideJewelry = false
 local electricalBoxEntity
 
+local function dropFingerprint()
+    if IsWearingGloves() then return end
+    if config.fingerprintChance > math.random(0, 100) then
+        local coords = GetEntityCoords(cache.ped)
+        TriggerServerEvent('evidence:server:CreateFingerDrop', coords)
+    end
+end
+
 local function createElectricalBox()
     electricalBoxEntity = CreateObject(`tr_prop_tr_elecbox_01a`, sharedConfig.electrical.x, sharedConfig.electrical.y, sharedConfig.electrical.z, false, false, false)
     while not DoesEntityExist(electricalBoxEntity) do
@@ -217,11 +225,9 @@ AddEventHandler('qb-jewelery:client:cabinetHandler', function()
         'smash_case_e'
     }
     local playerCoords = GetEntityCoords(cache.ped)
-    if not IsWearingGloves() then
-        if config.fingerprintDropChance > math.random(0, 100) then
-            TriggerServerEvent('evidence:server:CreateFingerDrop', GetEntityCoords(cache.ped))
-        end
-    end
+
+    dropFingerprint()
+
     TaskAchieveHeading(cache.ped, sharedConfig.vitrines[closestVitrine].heading, 1500)
     Wait(1500)
     lib.requestAnimDict(animDictCabinet)
