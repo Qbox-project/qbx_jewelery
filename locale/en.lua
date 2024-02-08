@@ -1,8 +1,8 @@
 local Translations = {
     text = {
-        electrical = '~g~E~w~ - Hack Doorlock',
+        electrical = '[E] - Hack Doorlock',
         electricalTarget = 'Hack Doorlock',
-        cabinet = '~g~E~w~ - Smash Cabinet'
+        cabinet = '[E] - Smash Cabinet'
     },
     notify = {
         busy = 'Someone is already on it',

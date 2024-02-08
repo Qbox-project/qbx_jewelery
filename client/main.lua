@@ -8,7 +8,7 @@ local insideJewelry = false
 local electricalBoxEntity
 
 local function dropFingerprint()
-    if IsWearingGloves() then return end
+    if qbx.isWearingGloves() then return end
     if config.fingerprintChance > math.random(0, 100) then
         local coords = GetEntityCoords(cache.ped)
         TriggerServerEvent('evidence:server:CreateFingerDrop', coords)
@@ -62,14 +62,10 @@ if not config.useTarget then
                 waitTime = 0
                 nearby = true
                 if config.useDrawText then
-                    if not hasShownText then
-                        hasShownText = true
-                        lib.showTextUI(Lang:t('text.electrical'), {
-                            position = 'left-center',
-                        })
-                    end
-                else
-                    DrawText3D(Lang:t('text.electrical'), electricalCoords)
+                    qbx.drawText3d({text = Lang:t('text.electrical'), coords = electricalCoords})
+                elseif not config.useDrawText and not hasShownText
+                    hasShownText = true
+                    lib.showTextUI(Lang:t('text.electrical'), {position = 'left-center'})
                 end
                 if IsControlJustPressed(0, 38) then
                     lib.callback('qb-jewelery:callback:electricalbox', false, function(CanHack)
@@ -188,14 +184,10 @@ else
             end
             if nearby and not (isSmashing or sharedConfig.vitrines[closestVitrine].isOpened) then
                 if config.useDrawText then
-                    if not hasShownText then
-                        hasShownText = true
-                        lib.showTextUI(Lang:t('text.cabinet'), {
-                            position = 'left-center'
-                        })
-                    end
-                else
-                    DrawText3D(Lang:t('text.cabinet'), sharedConfig.vitrines[closestVitrine].coords)
+                    qbx.drawText3d({text = Lang:t('text.cabinet'), coords = sharedConfig.vitrines[closestVitrine].coords})
+                elseif not config.useDrawText and not hasShownText
+                    hasShownText = true
+                    lib.showTextUI(Lang:t('text.cabinet'), {position = 'left-center'})
                 end
                 if IsControlJustPressed(0, 38) then
                     lib.callback('qb-jewelery:callback:cabinet', false, function(CanSmash)
@@ -307,7 +299,7 @@ lib.zones.sphere({
     end,
 })
 
-AddEventHandler('onResourceStop', function(resouce)
-    if resouce ~= cache.resource then return end
+AddEventHandler('onResourceStop', function(resource)
+    if resource ~= cache.resource then return end
     removeElectricalBox()
 end)
