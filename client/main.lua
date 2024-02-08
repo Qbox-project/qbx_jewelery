@@ -63,7 +63,7 @@ if not config.useTarget then
                 nearby = true
                 if config.useDrawText then
                     qbx.drawText3d({text = Lang:t('text.electrical'), coords = electricalCoords})
-                elseif not config.useDrawText and not hasShownText
+                elseif not config.useDrawText and not hasShownText then
                     hasShownText = true
                     lib.showTextUI(Lang:t('text.electrical'), {position = 'left-center'})
                 end
@@ -185,7 +185,7 @@ else
             if nearby and not (isSmashing or sharedConfig.vitrines[closestVitrine].isOpened) then
                 if config.useDrawText then
                     qbx.drawText3d({text = Lang:t('text.cabinet'), coords = sharedConfig.vitrines[closestVitrine].coords})
-                elseif not config.useDrawText and not hasShownText
+                elseif not config.useDrawText and not hasShownText then
                     hasShownText = true
                     lib.showTextUI(Lang:t('text.cabinet'), {position = 'left-center'})
                 end
