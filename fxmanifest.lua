@@ -5,12 +5,11 @@ description 'qbx_jewelery'
 repository 'https://github.com/Qbox-project/qbx_jewelery'
 version '1.0.0'
 
+ox_lib 'locale'
+
 shared_scripts {
     '@ox_lib/init.lua',
-    '@qbx_core/modules/utils.lua',
-    '@qbx_core/shared/locale.lua',
-    'locale/en.lua',
-    'locale/*.lua',
+    '@qbx_core/modules/lib.lua',
 }
 
 client_script 'client/main.lua'
@@ -20,6 +19,7 @@ server_script 'server/main.lua'
 files {
     'config/client.lua',
     'config/shared.lua',
+    'locales/*.json',
 }
 
 lua54 'yes'
