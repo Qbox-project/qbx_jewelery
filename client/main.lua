@@ -26,7 +26,7 @@ local function createElectricalBox()
             {
                 name = 'qb-jewelery:electricalBox',
                 icon = 'fab fa-usb',
-                label = Lang:t('text.electricalTarget'),
+                label = locale('text.electricalTarget'),
                 distance = 1.6,
                 items = sharedConfig.doorlock.requiredItem,
                 onSelect = function()
@@ -62,10 +62,10 @@ if not config.useTarget then
                 waitTime = 0
                 nearby = true
                 if config.useDrawText then
-                    qbx.drawText3d({text = Lang:t('text.electrical'), coords = electricalCoords})
+                    qbx.drawText3d({text = locale('text.electrical'), coords = electricalCoords})
                 elseif not config.useDrawText and not hasShownText then
                     hasShownText = true
-                    lib.showTextUI(Lang:t('text.electrical'), {position = 'left-center'})
+                    lib.showTextUI(locale('text.electrical'), {position = 'left-center'})
                 end
                 if IsControlJustPressed(0, 38) then
                     lib.callback('qb-jewelery:callback:electricalbox', false, function(CanHack)
@@ -154,7 +154,7 @@ if config.useTarget then
             options = {
                 {
                     icon = 'fas fa-gem',
-                    label = Lang:t('text.cabinet'),
+                    label = locale('text.cabinet'),
                     distance = 0.6,
                     onSelect = function()
                         closestVitrine = i
@@ -184,10 +184,10 @@ else
             end
             if nearby and not (isSmashing or sharedConfig.vitrines[closestVitrine].isOpened) then
                 if config.useDrawText then
-                    qbx.drawText3d({text = Lang:t('text.cabinet'), coords = sharedConfig.vitrines[closestVitrine].coords})
+                    qbx.drawText3d({text = locale('text.cabinet'), coords = sharedConfig.vitrines[closestVitrine].coords})
                 elseif not config.useDrawText and not hasShownText then
                     hasShownText = true
-                    lib.showTextUI(Lang:t('text.cabinet'), {position = 'left-center'})
+                    lib.showTextUI(locale('text.cabinet'), {position = 'left-center'})
                 end
                 if IsControlJustPressed(0, 38) then
                     lib.callback('qb-jewelery:callback:cabinet', false, function(CanSmash)

@@ -12,17 +12,17 @@ lib.callback.register('qb-jewelery:callback:electricalbox', function(source)
     local amount = exports.qbx_core:GetDutyCountType('leo')
 
     if electricalBusy then
-        exports.qbx_core:Notify(source, Lang:t('notify.busy'))
+        exports.qbx_core:Notify(source, locale('notify.busy'))
         return
     end
 
     if exports.ox_inventory:Search(source, 'count', sharedConfig.doorlock.requiredItem) == 0 then
-        exports.qbx_core:Notify(source, Lang:t('notify.noitem', {item = ITEMS[sharedConfig.doorlock.requiredItem].label}), 'error')
+        exports.qbx_core:Notify(source, locale('notify.noitem', ITEMS[sharedConfig.doorlock.requiredItem].label), 'error')
         return
     end
     if amount < config.minimumPolice then
         if config.notEnoughPoliceNotify then
-            exports.qbx_core:Notify(source, Lang:t('notify.nopolice', {Required = config.minimumPolice}), 'error')
+            exports.qbx_core:Notify(source, locale('notify.nopolice', config.minimumPolice), 'error')
         end
         return
     end
@@ -47,17 +47,17 @@ lib.callback.register('qb-jewelery:callback:cabinet', function(source, closestVi
     if #(playerCoords - sharedConfig.vitrines[closestVitrine].coords) > 1.8 then return end
 
     if not config.allowedWeapons[GetSelectedPedWeapon(playerPed)] then
-        exports.qbx_core:Notify(source, Lang:t('notify.noweapon'))
+        exports.qbx_core:Notify(source, locale('notify.noweapon'))
         return
     end
 
     if sharedConfig.vitrines[closestVitrine].isBusy then
-        exports.qbx_core:Notify(source, Lang:t('notify.busy'))
+        exports.qbx_core:Notify(source, locale('notify.busy'))
         return
     end
 
     if sharedConfig.vitrines[closestVitrine].isOpened then
-        exports.qbx_core:Notify(source, Lang:t('notify.cabinetdone'))
+        exports.qbx_core:Notify(source, locale('notify.cabinetdone'))
         return
     end
 
@@ -76,7 +76,7 @@ end)
 local function fireAlarm()
     if alarmFired then return end
 
-    TriggerEvent('police:server:policeAlert', Lang:t('notify.police'), 1, source)
+    TriggerEvent('police:server:policeAlert', locale('notify.police'), 1, source)
     TriggerEvent('qb-scoreboard:server:SetActivityBusy', 'jewellery', true)
     TriggerClientEvent('qb-jewelery:client:alarm', -1)
     alarmFired = true
