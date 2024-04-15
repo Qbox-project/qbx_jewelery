@@ -1,21 +1,11 @@
-# qb-jewelery
-Jewelry Robbery For QB-Core
+# qbx_jewelery
+Jewelry Robbery For QBOX
 
 ## Dependencies
-- [qb-core](https://github.com/QBCore-Remastered/qb-core) (Required)
-- [ox_target](https://github.com/overextended/ox_target) (Required)
-- [ox_lib](https://github.com/overextended/ox_lib) (Required)
+- [qbx_core](https://github.com/Qbox-project/qbx_core)
+- [ox_target](https://github.com/overextended/ox_target)
+- [ox_lib](https://github.com/overextended/ox_lib)
 
-# Server.cfg Convar Update
-- Global DrawTextUi Option
-```
-setr UseTarget false
-```
-
-- Global Target Option
-```
-setr UseTarget true
-```
 # DrawTextUi Previews
 ![preview](https://i.imgur.com/VLbhNpB.jpeg)
 

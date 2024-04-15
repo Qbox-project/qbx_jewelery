@@ -6,7 +6,7 @@ local startedVitrine = {}
 local alarmFired
 local ITEMS = exports.ox_inventory:Items()
 
-lib.callback.register('qb-jewelery:callback:electricalbox', function(source)
+lib.callback.register('qbx_jewelery:callback:electricalbox', function(source)
     local player = exports.qbx_core:GetPlayer(source)
     local playerCoords = GetEntityCoords(GetPlayerPed(source))
     local amount = exports.qbx_core:GetDutyCountType('leo')
@@ -26,7 +26,7 @@ lib.callback.register('qb-jewelery:callback:electricalbox', function(source)
         end
         return
     end
-    
+
     if #(playerCoords - vector3(sharedConfig.electrical.x, sharedConfig.electrical.y, sharedConfig.electrical.z)) > 2 then return end
 
     electricalBusy = true
@@ -39,7 +39,7 @@ lib.callback.register('qb-jewelery:callback:electricalbox', function(source)
     return true
 end)
 
-lib.callback.register('qb-jewelery:callback:cabinet', function(source, closestVitrine)
+lib.callback.register('qbx_jewelery:callback:cabinet', function(source, closestVitrine)
     local playerPed = GetPlayerPed(source)
     local playerCoords = GetEntityCoords(playerPed)
     local allPlayers = exports.qbx_core:GetQBPlayers()
@@ -66,7 +66,7 @@ lib.callback.register('qb-jewelery:callback:cabinet', function(source, closestVi
     for k in pairs(allPlayers) do
         if k ~= source then
             if #(GetEntityCoords(GetPlayerPed(k)) - sharedConfig.vitrines[closestVitrine].coords) < 20 then
-                TriggerClientEvent('qb-jewelery:client:synceffects', k, closestVitrine, source)
+                TriggerClientEvent('qbx_jewelery:client:synceffects', k, closestVitrine, source)
             end
         end
     end
@@ -78,7 +78,7 @@ local function fireAlarm()
 
     TriggerEvent('police:server:policeAlert', locale('notify.police'), 1, source)
     TriggerEvent('qb-scoreboard:server:SetActivityBusy', 'jewellery', true)
-    TriggerClientEvent('qb-jewelery:client:alarm', -1)
+    TriggerClientEvent('qbx_jewelery:client:alarm', -1)
     alarmFired = true
 
     SetTimeout(config.timeOut, function()
@@ -90,12 +90,12 @@ local function fireAlarm()
         for i = 1, #sharedConfig.vitrines do
             sharedConfig.vitrines[i].isOpened = false
         end
-        
-        TriggerClientEvent('qb-jewelery:client:syncconfig', -1, sharedConfig.vitrines)
+
+        TriggerClientEvent('qbx_jewelery:client:syncconfig', -1, sharedConfig.vitrines)
     end)
 end
 
-RegisterNetEvent('qb-jewelery:server:endcabinet', function()
+RegisterNetEvent('qbx_jewelery:server:endcabinet', function()
     local player = exports.qbx_core:GetPlayer(source)
     local playerCoords = GetEntityCoords(GetPlayerPed(source))
     local closestVitrine = startedVitrine[source]
@@ -114,16 +114,16 @@ RegisterNetEvent('qb-jewelery:server:endcabinet', function()
         player.Functions.AddItem(RandomItem.name, math.random(RandomItem.min, RandomItem.max))
     end
 
-    TriggerClientEvent('qb-jewelery:client:syncconfig', -1, sharedConfig.vitrines)
+    TriggerClientEvent('qbx_jewelery:client:syncconfig', -1, sharedConfig.vitrines)
     fireAlarm()
 end)
 
-RegisterNetEvent('qb-jewellery:server:failedhackdoor', function()
+RegisterNetEvent('qbx_jewelery:server:failedhackdoor', function()
     electricalBusy = false
     startedElectrical[source] = false
 end)
 
-RegisterNetEvent('qb-jewellery:server:succeshackdoor', function()
+RegisterNetEvent('qbx_jewelery:server:succeshackdoor', function()
     local doorEntrance = exports.ox_doorlock:getDoorFromName(sharedConfig.doorlock.name)
     local playerCoords = GetEntityCoords(GetPlayerPed(source))
 
@@ -138,5 +138,5 @@ RegisterNetEvent('qb-jewellery:server:succeshackdoor', function()
 end)
 
 AddEventHandler('playerJoining', function(source)
-    TriggerClientEvent('qb-jewelery:client:syncconfig', source, sharedConfig.vitrines)
+    TriggerClientEvent('qbx_jewelery:client:syncconfig', source, sharedConfig.vitrines)
 end)
