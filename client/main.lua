@@ -24,15 +24,15 @@ local function createElectricalBox()
     if config.useTarget then
         exports.ox_target:addLocalEntity(electricalBoxEntity, {
             {
-                name = 'qb-jewelery:electricalBox',
+                name = 'qbx_jewelery:electricalBox',
                 icon = 'fab fa-usb',
                 label = locale('text.electricalTarget'),
                 distance = 1.6,
                 items = sharedConfig.doorlock.requiredItem,
                 onSelect = function()
-                    lib.callback('qb-jewelery:callback:electricalbox', false, function(CanHack)
+                    lib.callback('qbx_jewelery:callback:electricalbox', false, function(CanHack)
                         if not CanHack then return end
-                        TriggerEvent('qb-jewelery:client:electricalHandler')
+                        TriggerEvent('qbx_jewelery:client:electricalHandler')
                     end)
                 end
             }
@@ -42,7 +42,7 @@ end
 
 local function removeElectricalBox()
     if config.useTarget then
-        exports.ox_target:removeLocalEntity(electricalBoxEntity, 'qb-jewelery:electricalBox')
+        exports.ox_target:removeLocalEntity(electricalBoxEntity, 'qbx_jewelery:electricalBox')
     end
     if electricalBoxEntity ~= nil and DoesEntityExist(electricalBoxEntity) then
         DeleteObject(electricalBoxEntity)
@@ -68,10 +68,10 @@ if not config.useTarget then
                     lib.showTextUI(locale('text.electrical'), {position = 'left-center'})
                 end
                 if IsControlJustPressed(0, 38) then
-                    lib.callback('qb-jewelery:callback:electricalbox', false, function(CanHack)
+                    lib.callback('qbx_jewelery:callback:electricalbox', false, function(CanHack)
                         if not CanHack then return end
                         isHacking = true
-                        TriggerEvent('qb-jewelery:client:electricalHandler')
+                        TriggerEvent('qbx_jewelery:client:electricalHandler')
                     end)
                 end
             end
@@ -84,7 +84,7 @@ if not config.useTarget then
     end)
 end
 
-AddEventHandler('qb-jewelery:client:electricalHandler', function()
+AddEventHandler('qbx_jewelery:client:electricalHandler', function()
     local animDictBox = 'anim@scripted@player@mission@tun_control_tower@male@'
     lib.requestAnimDict(animDictBox)
     local playerCoords = GetEntityCoords(cache.ped)
@@ -109,15 +109,15 @@ AddEventHandler('qb-jewelery:client:electricalHandler', function()
         NetworkStartSynchronisedScene(leavingScene)
         isHacking = false
         if result == 0 then -- Failed
-            TriggerServerEvent('qb-jewellery:server:failedhackdoor')
+            TriggerServerEvent('qbx_jewelery:server:failedhackdoor')
             exports.qbx_core:Notify(reason, 'error')
         elseif result == 1 then -- Succeeded
-            TriggerServerEvent('qb-jewellery:server:succeshackdoor')
+            TriggerServerEvent('qbx_jewelery:server:succeshackdoor')
         elseif result == 2 then -- Timed out
-            TriggerServerEvent('qb-jewellery:server:failedhackdoor')
+            TriggerServerEvent('qbx_jewelery:server:failedhackdoor')
             exports.qbx_core:Notify(reason, 'error')
         elseif result == -1 then -- Some error
-            TriggerServerEvent('qb-jewellery:server:failedhackdoor')
+            TriggerServerEvent('qbx_jewelery:server:failedhackdoor')
             exports.qbx_core:Notify('Failed hack', 'error')
             print('Error occured', reason)
         end
@@ -158,9 +158,9 @@ if config.useTarget then
                     distance = 0.6,
                     onSelect = function()
                         closestVitrine = i
-                        lib.callback('qb-jewelery:callback:cabinet', false, function(CanSmash)
+                        lib.callback('qbx_jewelery:callback:cabinet', false, function(CanSmash)
                             if not CanSmash then return end
-                            TriggerEvent('qb-jewelery:client:cabinetHandler')
+                            TriggerEvent('qbx_jewelery:client:cabinetHandler')
                         end, closestVitrine)
                     end
                 }
@@ -190,12 +190,12 @@ else
                     lib.showTextUI(locale('text.cabinet'), {position = 'left-center'})
                 end
                 if IsControlJustPressed(0, 38) then
-                    lib.callback('qb-jewelery:callback:cabinet', false, function(CanSmash)
+                    lib.callback('qbx_jewelery:callback:cabinet', false, function(CanSmash)
                         if not CanSmash then return end
 
                         isSmashing = true
                         if hasShownText then hasShownText = false lib.hideTextUI() end
-                        TriggerEvent('qb-jewelery:client:cabinetHandler')
+                        TriggerEvent('qbx_jewelery:client:cabinetHandler')
                     end, closestVitrine)
                 end
             end
@@ -205,7 +205,7 @@ else
     end)
 end
 
-AddEventHandler('qb-jewelery:client:cabinetHandler', function()
+AddEventHandler('qbx_jewelery:client:cabinetHandler', function()
     local animDictCabinet = 'missheist_jewel'
     local animNameSmashFront = {
         'smash_case_tray_b',
@@ -244,10 +244,10 @@ AddEventHandler('qb-jewelery:client:cabinetHandler', function()
     Wait(GetAnimDuration(animDictCabinet, animName) * 850)
     ClearPedTasks(cache.ped)
     isSmashing = false
-    TriggerServerEvent('qb-jewelery:server:endcabinet')
+    TriggerServerEvent('qbx_jewelery:server:endcabinet')
 end)
 
-RegisterNetEvent('qb-jewelery:client:synceffects', function(closestVitrines, originalPlayer)
+RegisterNetEvent('qbx_jewelery:client:synceffects', function(closestVitrines, originalPlayer)
     closestVitrine = closestVitrines
     Wait(1500)
     if sharedConfig.vitrines[closestVitrine].rayFire == 'DES_Jewel_Cab4' then
@@ -262,11 +262,11 @@ RegisterNetEvent('qb-jewelery:client:synceffects', function(closestVitrines, ori
     playSmashAudio(sharedConfig.vitrines[closestVitrine].coords)
 end)
 
-RegisterNetEvent('qb-jewelery:client:syncconfig', function(vitrines)
+RegisterNetEvent('qbx_jewelery:client:syncconfig', function(vitrines)
     sharedConfig.vitrines = vitrines
 end)
 
-RegisterNetEvent('qb-jewelery:client:alarm', function()
+RegisterNetEvent('qbx_jewelery:client:alarm', function()
     PrepareAlarm('JEWEL_STORE_HEIST_ALARMS')
     Wait(100)
     StartAlarm('JEWEL_STORE_HEIST_ALARMS', false)
