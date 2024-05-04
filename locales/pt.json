@@ -1,0 +1,15 @@
+{
+    "text": {
+        "electrical": "[E] - Hackear Fechadura",
+        "electricalTarget": "Hackear Fechadura",
+        "cabinet": "[E] - Partir Armário"
+    },
+    "notify": {
+        "busy": "Alguém já está nisso",
+        "cabinetdone": "Este já está feito",
+        "noweapon": "Não tens uma arma na mão",
+        "noitem": "Não tens um %s contigo",
+        "police": "Assalto à loja Vangelico relatado",
+        "nopolice": "Não há polícias suficientes (%s necessário)"
+    }
+}
