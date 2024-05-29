@@ -125,7 +125,7 @@ RegisterNetEvent('qbx_jewelery:server:endcabinet', function()
 
     if config.CreateCustomDrop then
         exports.ox_inventory:CustomDrop('jewelery', customDropItems, playerCoords)
-        exports.qbx_core:Notify(source, locale('notify.reward_dropped', 'x'..quantity..' '..ITEMS[RandomItem.name].label), 'warning')
+        exports.qbx_core:Notify(source, locale('notify.reward_dropped'), 'warning')
     end
 
     TriggerClientEvent('qbx_jewelery:client:syncconfig', -1, sharedConfig.vitrines)
