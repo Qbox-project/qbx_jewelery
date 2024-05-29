@@ -109,9 +109,23 @@ RegisterNetEvent('qbx_jewelery:server:endcabinet', function()
     sharedConfig.vitrines[closestVitrine].isBusy = false
     startedVitrine[source] = nil
 
+    local customDropItems = {}
     for _ = 1, math.random(config.reward.minAmount, config.reward.maxAmount) do
         local RandomItem = config.reward.items[math.random(1, #config.reward.items)]
-        player.Functions.AddItem(RandomItem.name, math.random(RandomItem.min, RandomItem.max))
+        local quantity = math.random(RandomItem.min, RandomItem.max)
+
+        if exports.ox_inventory:CanCarryItem(source, RandomItem.name, quantity) then
+            exports.ox_inventory:AddItem(source, RandomItem.name, quantity)
+        else
+            if config.CreateCustomDrop then
+                customDropItems[#customDropItems+1] = {RandomItem.name, quantity}
+            end
+        end
+    end
+
+    if config.CreateCustomDrop then
+        exports.ox_inventory:CustomDrop('jewelery', customDropItems, playerCoords)
+        exports.qbx_core:Notify(source, locale('notify.reward_dropped', 'x'..quantity..' '..ITEMS[RandomItem.name].label), 'warning')
     end
 
     TriggerClientEvent('qbx_jewelery:client:syncconfig', -1, sharedConfig.vitrines)

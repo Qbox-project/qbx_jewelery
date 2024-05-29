@@ -2,6 +2,7 @@ return {
     timeOut = 2700000,
     minimumPolice = 0,
     notEnoughPoliceNotify = true,
+    CreateCustomDrop = true,
     reward = {
         minAmount = 1,
         maxAmount = 2,
