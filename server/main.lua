@@ -123,7 +123,7 @@ RegisterNetEvent('qbx_jewelery:server:endcabinet', function()
         end
     end
 
-    if config.CreateCustomDrop then
+    if config.CreateCustomDrop and #customDropItems > 0 then
         exports.ox_inventory:CustomDrop('jewelery', customDropItems, playerCoords)
         exports.qbx_core:Notify(source, locale('notify.reward_dropped'), 'warning')
     end
