@@ -117,13 +117,11 @@ RegisterNetEvent('qbx_jewelery:server:endcabinet', function()
         if exports.ox_inventory:CanCarryItem(source, RandomItem.name, quantity) then
             exports.ox_inventory:AddItem(source, RandomItem.name, quantity)
         else
-            if config.CreateCustomDrop then
-                customDropItems[#customDropItems+1] = {RandomItem.name, quantity}
-            end
+            customDropItems[#customDropItems+1] = {RandomItem.name, quantity}
         end
     end
 
-    if config.CreateCustomDrop and #customDropItems > 0 then
+    if #customDropItems > 0 then
         exports.ox_inventory:CustomDrop('jewelery', customDropItems, playerCoords)
         exports.qbx_core:Notify(source, locale('notify.reward_dropped'), 'warning')
     end
