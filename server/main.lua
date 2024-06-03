@@ -96,7 +96,6 @@ local function fireAlarm()
 end
 
 RegisterNetEvent('qbx_jewelery:server:endcabinet', function()
-    local player = exports.qbx_core:GetPlayer(source)
     local playerCoords = GetEntityCoords(GetPlayerPed(source))
     local closestVitrine = startedVitrine[source]
 
