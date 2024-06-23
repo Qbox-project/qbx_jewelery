@@ -16,7 +16,9 @@ local function dropFingerprint()
 end
 
 local function createElectricalBox()
+    lib.requestModel(`tr_prop_tr_elecbox_01a`)
     electricalBoxEntity = CreateObject(`tr_prop_tr_elecbox_01a`, sharedConfig.electrical.x, sharedConfig.electrical.y, sharedConfig.electrical.z, false, false, false)
+    SetModelAsNoLongerNeeded(`tr_prop_tr_elecbox_01a`)
     while not DoesEntityExist(electricalBoxEntity) do
         Wait(0)
     end
@@ -123,6 +125,7 @@ AddEventHandler('qbx_jewelery:client:electricalHandler', function()
         end
         Wait(GetAnimDuration(animDictBox, 'exit') * 1000)
         NetworkStopSynchronisedScene(leavingScene)
+        RemoveAnimDict(animDictBox)
     end)
 end)
 
@@ -238,11 +241,13 @@ AddEventHandler('qbx_jewelery:client:cabinetHandler', function()
         TaskPlayAnim(cache.ped, animDictCabinet, animName, 3.0, 3.0, -1, 2, 0, false, false, false)
         Wait(300)
     end
+    RemoveAnimDict(animDictCabinet)
     loadParticle()
     StartNetworkedParticleFxNonLoopedOnEntity('scr_jewel_cab_smash', GetCurrentPedWeaponEntityIndex(cache.ped), 0, 0, 0, 0, 0, 0, 1.6, false, false, false)
     playSmashAudio(playerCoords)
     Wait(GetAnimDuration(animDictCabinet, animName) * 850)
     ClearPedTasks(cache.ped)
+    RemoveNamedPtfxAsset('scr_jewelheist')
     isSmashing = false
     TriggerServerEvent('qbx_jewelery:server:endcabinet')
 end)
@@ -260,6 +265,7 @@ RegisterNetEvent('qbx_jewelery:client:synceffects', function(closestVitrines, or
     loadParticle()
     StartNetworkedParticleFxNonLoopedOnEntity('scr_jewel_cab_smash', GetCurrentPedWeaponEntityIndex(GetPlayerPed(GetPlayerFromServerId(originalPlayer))), 0, 0, 0, 0, 0, 0, 1.6, false, false, false)
     playSmashAudio(sharedConfig.vitrines[closestVitrine].coords)
+    RemoveNamedPtfxAsset('scr_jewelheist')
 end)
 
 RegisterNetEvent('qbx_jewelery:client:syncconfig', function(vitrines)
