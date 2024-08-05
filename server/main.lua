@@ -148,6 +148,6 @@ RegisterNetEvent('qbx_jewelery:server:succeshackdoor', function()
     TriggerEvent('ox_doorlock:setState', doorEntrance.id, 0)
 end)
 
-AddEventHandler('playerJoining', function(source)
+RegisterNetEvent('QBCore:Server:OnPlayerLoaded', function()
     TriggerClientEvent('qbx_jewelery:client:syncconfig', source, sharedConfig.vitrines)
 end)
