@@ -1,0 +1,16 @@
+{
+    "text": {
+        "electrical": "[E] - Türschloss knacken",
+        "electricalTarget": "Türschloss knacken",
+        "cabinet": "[E] - Vitrine zerschlagen"
+    },
+    "notify": {
+        "busy": "Jemand ist bereits dabei",
+        "cabinetdone": "Diese Vitrine wurde bereits ausgeraubt",
+        "noweapon": "Du hast keine Waffe in der Hand",
+        "noitem": "Du hast kein %s bei dir",
+        "police": "Raubüberfall im Vangelico-Geschäft gemeldet",
+        "nopolice": "Nicht genügend Polizisten im Dienst (%s benötigt)",
+        "reward_dropped": "Du hast einige Juwelen fallen lassen"
+    }
+}
