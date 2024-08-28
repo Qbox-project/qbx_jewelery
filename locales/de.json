@@ -2,7 +2,8 @@
     "text": {
         "electrical": "[E] - Türschloss knacken",
         "electricalTarget": "Türschloss knacken",
-        "cabinet": "[E] - Vitrine zerschlagen"
+        "cabinet": "[E] - Vitrine zerschlagen",
+        "cabinetTarget": "Vitrine zerschlagen"
     },
     "notify": {
         "busy": "Jemand ist bereits dabei",
