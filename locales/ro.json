@@ -1,0 +1,17 @@
+{
+    "text": {
+        "electrical": "[E] - Sparge sistemul",
+        "electricalTarget": "Sparge sistemul",
+        "cabinet": "[E] - Sparge Vitrina",
+        "cabinetTarget": "Sparge Vitrina"
+    },
+    "notify": {
+        "busy": "Cineva sparge deja vitrina",
+        "cabinetdone": "Vitrina este deja spartă",
+        "noweapon": "Nu ai o armă in mână",
+        "noitem": "Nu ai %s",
+        "police": "Jaf la Vangelico raportat",
+        "nopolice": "Nu se află destulă poliție (%s Necesari)",
+        "reward_dropped": "Ai scăpat niște bijuterii"
+    }
+}
