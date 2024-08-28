@@ -2,7 +2,8 @@
     "text": {
         "electrical": "[E] - Hack Doorlock",
         "electricalTarget": "Hack Doorlock",
-        "cabinet": "[E] - Smash Cabinet"
+        "cabinet": "[E] - Smash Cabinet",
+        "cabinetTarget": "Smash Cabinet"
     },
     "notify": {
         "busy": "Someone is already on it",
