@@ -2,7 +2,8 @@
     "text": {
         "electrical": "[E] - Hackear Fechadura",
         "electricalTarget": "Hackear Fechadura",
-        "cabinet": "[E] - Partir Armário"
+        "cabinet": "[E] - Partir Armário",
+        "cabinetTarget": "Partir Armário"
     },
     "notify": {
         "busy": "Alguém já está nisso",
