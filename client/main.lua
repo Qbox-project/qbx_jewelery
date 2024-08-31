@@ -157,7 +157,7 @@ if config.useTarget then
             options = {
                 {
                     icon = 'fas fa-gem',
-                    label = locale('text.cabinet'),
+                    label = locale('text.cabinetTarget'),
                     distance = 0.6,
                     onSelect = function()
                         closestVitrine = i

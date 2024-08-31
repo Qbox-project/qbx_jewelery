@@ -2,7 +2,8 @@
     "text": {
         "electrical": "[E] - Hacker le vérrou",
         "electricalTarget": "Hacker le vérrou",
-        "cabinet": "[E] - Casser la vitre"
+        "cabinet": "[E] - Casser la vitre",
+        "cabinetTarget": "Casser la vitre"
     },
     "notify": {
         "busy": "Quelqu'un le fait déjà",
