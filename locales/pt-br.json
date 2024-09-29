@@ -1,0 +1,17 @@
+{
+    "text": {
+        "electrical": "[E] - Hackear Fechadura",
+        "electricalTarget": "Hackear Fechadura",
+        "cabinet": "[E] - Quebrar Vitrine",
+        "cabinetTarget": "Quebrar Vitrine"
+    },
+    "notify": {
+        "busy": "Alguém já está fazendo isso",
+        "cabinetdone": "Esta já foi quebrada",
+        "noweapon": "Você não tem uma arma em mãos",
+        "noitem": "Você não tem um(a) %s com você",
+        "police": "Roubo na joalheria Vangelico reportado",
+        "nopolice": "Policiais Insuficientes (%s Requeridos)",
+        "reward_dropped": "Você derrubou algumas joias"
+    }
+}
