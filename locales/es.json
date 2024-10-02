@@ -1,0 +1,17 @@
+{
+    "text": {
+        "electrical": "[E] - Hackear Cerradura",
+        "electricalTarget": "Hackear Cerradura",
+        "cabinet": "[E] - Romper Gabinete",
+        "cabinetTarget": "Romper Gabinete"
+    },
+    "notify": {
+        "busy": "Alguien ya está en ello",
+        "cabinetdone": "Este ya fue hecho",
+        "noweapon": "No tienes un arma en mano",
+        "noitem": "No tienes un %s contigo",
+        "police": "Robo en tienda Vangelico reportado",
+        "nopolice": "No hay suficientes policías (%s requeridos)",
+        "reward_dropped": "Has dejado caer algunas joyas"
+    }
+}
