@@ -17,7 +17,7 @@ end
 
 local function createElectricalBox()
     lib.requestModel(`tr_prop_tr_elecbox_01a`)
-    electricalBoxEntity = CreateObject(`tr_prop_tr_elecbox_01a`, sharedConfig.electrical.x, sharedConfig.electrical.y, sharedConfig.electrical.z, false, false, false)
+    electricalBoxEntity = CreateObjectNoOffset(joaat("tr_prop_tr_elecbox_01a"), sharedConfig.electrical.x, sharedConfig.electrical.y, sharedConfig.electrical.z, true, true, false)
     SetModelAsNoLongerNeeded(`tr_prop_tr_elecbox_01a`)
     while not DoesEntityExist(electricalBoxEntity) do
         Wait(0)
