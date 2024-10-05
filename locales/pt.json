@@ -11,7 +11,7 @@
         "noweapon": "Não tens uma arma na mão",
         "noitem": "Não tens um %s contigo",
         "police": "Assalto à loja Vangelico relatado",
-        "nopolice": "Não há polícias suficientes (%s necessário)",
-        "reward_dropped": "Você deixou cair algumas joias"
+        "nopolice": "Não existem polícias suficientes (%s necessário)",
+        "reward_dropped": "Deixaste cair algumas joias"
     }
 }
