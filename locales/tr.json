@@ -1,0 +1,17 @@
+{
+  "text": {
+    "electrical": "[E] - Kapı Kilidini Hackle",
+    "electricalTarget": "Kapı Kilidini Hackle",
+    "cabinet": "[E] - Camı Kır",
+    "cabinetTarget": "Camı Kır"
+  },
+  "notify": {
+    "busy": "Biri zaten bu işle uğraşıyor",
+    "cabinetdone": "Bu cam zaten kırıldı",
+    "noweapon": "Elinde silah yok",
+    "noitem": "Yanında bir %s yok",
+    "police": "Vangelico Mağazası soygunu bildirildi",
+    "nopolice": "Yeterli Polis Yok (%s Gerekli)",
+    "reward_dropped": "Biraz mücevher düşürdün"
+  }
+}
