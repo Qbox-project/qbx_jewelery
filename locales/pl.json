@@ -1,0 +1,17 @@
+{
+    "text": {
+        "electrical": "[E] - Zhakuj zamek",
+        "electricalTarget": "Zhakuj zamek",
+        "cabinet": "[E] - Rozbij witrynę",
+        "cabinetTarget": "Rozbij witrynę"
+    },
+    "notify": {
+        "busy": "Ktoś już to robi",
+        "cabinetdone": "Ta jest już zrobiona",
+        "noweapon": "Nie masz broni w ręce",
+        "noitem": "Nie masz przy sobie %s",
+        "police": "Zgłoszono napad na sklep Vangelico",
+        "nopolice": "Niewystarczająca liczba policjantów (wymagani %s)",
+        "reward_dropped": "Upuszczono część klejnotów"
+    }
+}
