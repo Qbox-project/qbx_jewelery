@@ -1,0 +1,17 @@
+{
+    "text": {
+        "electrical": "[E] - ドアロックをハック",
+        "electricalTarget": "ドアロックをハック",
+        "cabinet": "[E] - ケースを割る",
+        "cabinetTarget": "ケースを割る"
+    },
+    "notify": {
+        "busy": "すでに誰かが取り込んでいます",
+        "cabinetdone": "このケースはすでに開けられています",
+        "noweapon": "手に武器を持っていません",
+        "noitem": "%s を持っていません",
+        "police": "ヴァンジェリコ店強盗の通報がありました",
+        "nopolice": "警察が不足しています (%s 人必要)",
+        "reward_dropped": "宝石を落としました"
+    }
+}
