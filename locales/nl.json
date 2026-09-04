@@ -1,0 +1,17 @@
+{
+    "text": {
+        "electrical": "[E] - Deurslot hacken",
+        "electricalTarget": "Deurslot hacken",
+        "cabinet": "[E] - Vitrine inslaan",
+        "cabinetTarget": "Vitrine inslaan"
+    },
+    "notify": {
+        "busy": "Iemand is hier al mee bezig",
+        "cabinetdone": "Deze vitrine is al leeg",
+        "noweapon": "Je hebt geen wapen vast",
+        "noitem": "Je hebt geen %s bij je",
+        "police": "Overval op juwelier Vangelico gemeld",
+        "nopolice": "Niet genoeg politieagenten (%s vereist)",
+        "reward_dropped": "Je hebt enkele juwelen laten vallen"
+    }
+}
